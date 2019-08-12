@@ -75,7 +75,7 @@ module.exports = function(passport) {
 	router.get("/user", (req, res) => {
 		console.log("The req user is ", req.user);
 		if (req.user) {
-			res.json({ success: true });
+			res.json({ success: true, data: req.user });
 		} else {
 			res.json({ success: false });
 		}
