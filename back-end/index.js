@@ -4,6 +4,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const FacebookStrategy = require("passport-facebook");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const crypto = require("crypto");
@@ -89,6 +90,35 @@ passport.use(
 		});
 	})
 );
+
+// Tell passport how to read our user models for Facebook Login
+// passport.use(
+// 	new FacebookStrategy(
+// 		{
+// 			clientID: process.env.FACEBOOK_APP_ID,
+// 			clientSecret: process.env.FACEBOOK_APP_SECRET,
+// 			callbackURL: "http://localhost:3000/auth/facebook/callback",
+// 			profileFields: ["id", "displayName", "photos"],
+// 		},
+// 		function(accessToken, refreshToken, profile, done) {
+// 			User.findOrCreate(
+// 				{ facebookId: profile.id },
+// 				{
+// 					username: profile.displayName,
+// 					password: "idkwhattoputhere",
+// 					pictureUrl: profile.photos[0].value,
+// 					facebookId: profile.id,
+// 					// phone: process.env.FROM_PHONE
+// 				},
+// 				function(err, user) {
+// 					console.log(profile);
+// 					return done(err, user);
+// 					// done(null, user);
+// 				}
+// 			);
+// 		}
+// 	)
+// );
 
 app.use(passport.initialize());
 app.use(passport.session());
