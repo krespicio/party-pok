@@ -17,6 +17,8 @@ module.exports = function(passport) {
 		const newUser = new User({
 			username: req.body.username,
 			password: hashPassword(req.body.password),
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
 			documents: [],
 		});
 		User.findOne({ username: req.body.username }, function(err, user) {

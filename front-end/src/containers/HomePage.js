@@ -14,5 +14,11 @@ export default function HomePage() {
         });
         console.log(await user.json());
       }
-      return (<button onClick={() => getUser()}>Show user</button>)
+
+
+      return (
+          <div>
+              <button onClick={() => getUser()}>Show user</button>
+          </div>
+      )
 }

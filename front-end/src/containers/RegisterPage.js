@@ -8,6 +8,9 @@ export default function RegisterPage() {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [verifiedPassword, setVerifiedPassword] = useState("");
+const [firstName, setFirstName] = useState("");
+const [lastName, setLastName] = useState("")
+
   const [errorText, setErrorText] = useState("");
   const [flipStyle, setFlipStyle] = useState({});
   const [loggedIn, setLogin] = useState(false);
@@ -53,8 +56,10 @@ export default function RegisterPage() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: username,
-        password: password
+        username,
+        password,
+        firstName,
+        lastName,
       })
     });
     const content = await response.json();
@@ -136,21 +141,35 @@ export default function RegisterPage() {
             <input
               type="text"
               className="form-control"
-              placeholder="username"
+              placeholder="Username"
               value={username}
               onChange={e => handleUsername(e)}
             />
             <input
+              type="text"
+              className="form-control"
+              placeholder="First Name"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+            />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+            />
+            <input
               type="password"
               className="form-control"
-              placeholder="password"
+              placeholder="Password"
               value={password}
               onChange={e => handlePassword(e)}
             />
             <input
               type="password"
               className="form-control"
-              placeholder="verify password"
+              placeholder="Verify Password"
               value={verifiedPassword}
               onChange={e => handleVerifiedPassword(e)}
             />
