@@ -69,6 +69,7 @@ module.exports = function(passport) {
 	// 			});
 	// 	}
 	// });
+
 	router.get("/user", (req, res) => {
 		console.log("The req user is ", req.user);
 		if (req.user) {
