@@ -9,6 +9,7 @@ import Banner from '../components/Banner';
 import Notifications from "../components/Notifications";
 import Suggestions from "../components/Suggestions";
 import Parties from "../components/Parties";
+import PartyForm from "../components/PartyForm";
 
 Modal.setAppElement('#root');
 
@@ -33,7 +34,7 @@ let HomePage = (props) => {
            isOpen={props.modalIsOpen}
            contentLabel="Minimal Modal Example"
         >
-          <button onClick={() => props.closePartyModal()}>Close Modal</button>
+            <PartyForm closePartyModal={() => props.closePartyModal()}/>
         </Modal>
               <div>
                   <div>
