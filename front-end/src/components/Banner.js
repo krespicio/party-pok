@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
 
@@ -7,8 +8,7 @@ export default function Banner(props) {
 
     const createParty = () => {
 
-        props.createPartyModal();
-        console.log(props, props.modalIsOpen);
+        props.openPartyModal();
 
         // fetch("http://localhost:5000/user", {
         //     method: 'POST',

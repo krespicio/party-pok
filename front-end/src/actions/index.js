@@ -1,7 +1,13 @@
-const createPartyModal = () => {
+const openPartyModal = () => {
     return {
-        type: 'CREATE_PARTY_MODAL',
+        type: 'OPEN_PARTY_MODAL',
     }
 }
 
-export {createPartyModal}
+const closePartyModal = () => {
+    return {
+        type: 'CLOSE_PARTY_MODAL',
+    }
+}
+
+export {openPartyModal, closePartyModal}

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
+import Modal from 'react-modal'
 import { connect } from "react-redux";
-import { createPartyModal } from "../actions/index";
+import { openPartyModal, closePartyModal } from "../actions/index";
 
 import Banner from '../components/Banner';
 import Notifications from "../components/Notifications";
 import Suggestions from "../components/Suggestions";
 import Parties from "../components/Parties";
+
+Modal.setAppElement('#root');
 
 let HomePage = (props) => {
     const getUser = async () => {
@@ -25,7 +28,13 @@ let HomePage = (props) => {
 
       return (
           <div>
-              <Banner createPartyModal={() => props.createPartyModal} modalIsOpen={props.modalIsOpen}/>
+              <Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen}/>
+              <Modal 
+           isOpen={props.modalIsOpen}
+           contentLabel="Minimal Modal Example"
+        >
+          <button onClick={() => props.closePartyModal()}>Close Modal</button>
+        </Modal>
               <div>
                   <div>
                       <Suggestions/>
@@ -46,8 +55,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        createPartyModal: () => {
-            dispatch(createPartyModal())
+        openPartyModal: () => {
+            dispatch(openPartyModal())
+        },
+        closePartyModal: () => {
+            dispatch(closePartyModal())
         }
     };
 };
