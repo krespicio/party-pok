@@ -15,7 +15,7 @@ const User = require("./models/User.js");
 
 // Import Routes
 const auth = require("./routes/auth");
-// const docRoutes = require("./routes/docRoutes");
+const party = require("./routes/party");
 
 const app = express();
 
@@ -124,7 +124,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", auth(passport));
-// app.use("/", docRoutes);
+app.use("/", party);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
