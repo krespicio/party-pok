@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { createPartyModal } from "../actions/index";
 
 import Banner from '../components/Banner';
 import Notifications from "../components/Notifications";
 import Suggestions from "../components/Suggestions";
 import Parties from "../components/Parties";
 
-export default function HomePage() {
+let HomePage = (props) => {
     const getUser = async () => {
         const user = await fetch("http://localhost:5000/user", {
                 method: "GET",
@@ -23,7 +25,7 @@ export default function HomePage() {
 
       return (
           <div>
-              <Banner/>
+              <Banner createPartyModal={() => props.createPartyModal} modalIsOpen={props.modalIsOpen}/>
               <div>
                   <div>
                       <Suggestions/>
@@ -35,3 +37,24 @@ export default function HomePage() {
           </div>
       )
 }
+
+const mapStateToProps = state => {
+    return {
+        modalIsOpen: state.modalIsOpen,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createPartyModal: () => {
+            dispatch(createPartyModal())
+        }
+    };
+};
+
+HomePage = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HomePage);
+
+export default HomePage;
