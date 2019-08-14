@@ -18,6 +18,7 @@ export default function Parties() {
 		})
 			.then(response => response.json())
 			.then(responseJSON => {
+				console.log(responseJSON);
 				loadParties(responseJSON.data);
 			})
 			.catch(e => console.log("There's an error", e));
@@ -27,9 +28,26 @@ export default function Parties() {
 		setParties(response);
 	};
 
-	const deleteParty = () => {};
-
-	const addNoteToParty = () => {};
+	const addNoteToParty = async partyId => {
+		const link = "http://localhost:5000/party/" + partyId + "/notes/create";
+		const now = new Date();
+		const response = await fetch(link, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				content: "content",
+				timeAdded: now,
+			}),
+		});
+		const responseJSON = await response.json();
+		console.log(responseJSON);
+		if (responseJSON.success) {
+			console.log("we did it ");
+		}
+	};
 
 	const getPartyDetails = partyId => {
 		setPartyId(partyId);
@@ -49,6 +67,7 @@ export default function Parties() {
 					<MiniPartyPlan
 						party={party}
 						getPartyDetails={partyId => getPartyDetails(partyId)}
+						addNoteToParty={partyId => addNoteToParty(partyId)}
 					/>
 				))}
 		</div>

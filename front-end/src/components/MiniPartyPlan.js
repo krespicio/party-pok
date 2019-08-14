@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function MiniPartyPlan(props) {
 	const findDaysAway = () => {};
-
+	console.log(props.party);
 	return (
 		<div>
 			{props.party.title}
@@ -13,9 +13,16 @@ export default function MiniPartyPlan(props) {
 				<li>
 					Current Budget: {50}/{100} ({50}%)
 				</li>
-				<li>Current Notes: none</li>
+				<li>
+					Current Notes:{" "}
+					<ul>
+						{props.party.notes.map(note => (
+							<li>{note.content}</li>
+						))}
+					</ul>
+				</li>
 			</ul>
-			<button>Add Note</button>
+			<button onClick={() => props.addNoteToParty(props.party._id)}>Add Note</button>
 			<button onClick={() => props.getPartyDetails(props.party._id)}>(i)</button>
 		</div>
 	);

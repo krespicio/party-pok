@@ -3,12 +3,13 @@ const router = express.Router();
 
 const Party = require("../models/Party");
 const User = require("../models/User");
+const Note = require("../models/Note");
 
 router.get("/parties/get", (req, res) => {
 	try {
 		if (req.user) {
 			User.findOne({ _id: req.user._id })
-				.populate("parties")
+				.populate({ path: "parties", populate: { path: "notes" } })
 				.exec((err, user) => {
 					if (user) {
 						res.json({
@@ -83,14 +84,84 @@ router.post("/party/:partyId/edit", (req, res) => {
 	// }
 });
 
-router.get("/party/:partyId/notes/create", (req, res) => {});
+router.post("/party/:partyId/notes/create", (req, res) => {
+	console.log("notes should be added in route");
+	try {
+		Party.findOne({ _id: req.params.partyId }, (err, party) => {
+			let newNote = new Note({
+				content: req.body.content,
+				timeAdded: req.body.timeAdded,
+			});
+			newNote.save(err2 => {
+				if (err2) {
+					throw err2;
+				}
+				party.notes.push(newNote);
+				party.save(err3 => {
+					if (!err3) {
+						res.json({
+							success: true,
+							msg: "Successfully created note for specified party",
+						});
+					}
+				});
+			});
+		});
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to create note..." });
+	}
+});
 
-router.get("/party/:partyId/notes/get", (req, res) => {});
+router.get("/party/:partyId/notes/get", (req, res) => {
+	try {
+		Party.findOne({ _id: req.params.partyId }, (err, party) => {
+			if (party) {
+				res.json({
+					success: true,
+					msg: "Successfully loaded party notes",
+					data: party.notes,
+				});
+			}
+		});
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to load party notes..." });
+	}
+});
 
-router.get("/party/:partyId/notes/:noteId/edit", (req, res) => {});
+router.post("/party/:partyId/notes/:noteId/edit", (req, res) => {
+	try {
+		Note.findOne({ _id: req.params.noteId }, (err, note) => {
+			if (note) {
+				note.content = req.body.content;
+				note.save(err2 => {
+					if (!err2) {
+						res.json({ success: true, msg: "Note was successfully edited" });
+					}
+				});
+			}
+		});
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to edit party note..." });
+	}
+});
 
-router.get("/party/:partyId/budget/get", (req, res) => {});
+router.post("/party/:partyId/budget/get", (req, res) => {
+	// try{
+	// } catch(e) {
+	// 	console.log(e)
+	// 	res.json({ sucess: false, msg: "Failed to load party budget..." });
+	// }
+});
 
-router.get("/party/:partyId/budget/edit", (req, res) => {});
+router.get("/party/:partyId/budget/edit", (req, res) => {
+	// try{
+	// } catch(e) {
+	// 	console.log(e)
+	// 	res.json({ sucess: false, msg: "Failed to edit party budget..." });
+	// }
+});
 
 module.exports = router;

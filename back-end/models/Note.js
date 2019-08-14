@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 var noteSchema = new Schema({
-	username: {
+	content: {
 		type: String,
+		required: true,
+	},
+	timeAdded: {
+		type: Date,
 		required: true,
 	},
 });
