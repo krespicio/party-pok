@@ -22,7 +22,7 @@ var userSchema = new Schema({
 	parties: [
 		{
 			type: [mongoose.Schema.ObjectId],
-			ref: "parties",
+			ref: "Party",
 			default: [],
 		},
 	],

@@ -22,7 +22,7 @@ var partySchema = new Schema({
 		type: mongoose.Schema.ObjectId,
 		ref: "Budget",
 	},
-	note: [
+	notes: [
 		{
 			type: mongoose.Schema.ObjectId,
 			ref: "Note",

@@ -4,6 +4,29 @@ const router = express.Router();
 const Party = require("../models/Party");
 const User = require("../models/User");
 
+router.get("/parties/get", (req, res) => {
+	try {
+		if (req.user) {
+			User.findOne({ _id: req.user._id })
+				.populate("parties")
+				.exec((err, user) => {
+					if (user) {
+						res.json({
+							success: true,
+							msg: "Loading Parties successfully",
+							data: user.parties,
+						});
+					}
+				});
+		} else {
+			throw "The user is not logged in currently";
+		}
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to load parties..." });
+	}
+});
+
 router.post("/party/create", (req, res) => {
 	try {
 		if (req.user) {
@@ -28,8 +51,8 @@ router.post("/party/create", (req, res) => {
 			});
 		}
 	} catch (e) {
-		res.json({ sucess: false, msg: "Failed to create party..." });
 		console.log(e);
+		res.json({ sucess: false, msg: "Failed to create party..." });
 	}
 });
 
