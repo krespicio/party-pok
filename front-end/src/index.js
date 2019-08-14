@@ -9,8 +9,11 @@ import * as serviceWorker from "./serviceWorker";
 import Register from "./containers/RegisterPage";
 import HomePage from "./containers/HomePage";
 import PartyPage from "./containers/PartyPage";
+import InfoPage from "./containers/InfoPage";
 
 import reducer from "./reducers/index";
+import ProfilePage from "./containers/ProfilePage";
+import ContactsPage from "./containers/ContactsPage";
 let store = createStore(reducer);
 
 const routing = (
@@ -18,6 +21,9 @@ const routing = (
 		<Provider store={store}>
 			<Route exact path="/" component={HomePage} />
 			<Route exact path="/party/:partyId" component={PartyPage} />
+			<Route exact path="/info" component={InfoPage} />
+			<Route exact path="/contacts" component={ContactsPage} />
+			<Route exact path="/profile" component={ProfilePage} />
 		</Provider>
 		<Route exact path="/testing" component={App} />
 		<Route exact path="/register" component={Register} />

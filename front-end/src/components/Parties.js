@@ -8,21 +8,22 @@ export default function Parties() {
 	const [partySelected, setPartySelected] = useState(false);
 	const [partyId, setPartyId] = useState("");
 
-	useEffect(async () => {
-		const response = await fetch("http://localhost:5000/parties/get", {
+	useEffect(() => {
+		fetch("http://localhost:5000/parties/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
 			},
-		});
-		const responseJSON = await response.json();
-		console.log("this is the response jsons", responseJSON);
-		loadParties(responseJSON.data);
+		})
+			.then(response => response.json())
+			.then(responseJSON => {
+				loadParties(responseJSON.data);
+			})
+			.catch(e => console.log("There's an error", e));
 	}, []);
 
 	const loadParties = response => {
-		console.log(response);
 		setParties(response);
 	};
 
@@ -31,7 +32,6 @@ export default function Parties() {
 	const addNoteToParty = () => {};
 
 	const getPartyDetails = partyId => {
-		console.log(partyId);
 		setPartyId(partyId);
 		setPartySelected(true);
 	};

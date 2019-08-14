@@ -6,42 +6,18 @@ import { connect } from "react-redux";
 import { openPartyModal, closePartyModal } from "../actions/index";
 
 import Banner from "../components/Banner";
-import Notifications from "../components/Notifications";
-import Suggestions from "../components/Suggestions";
-import Parties from "../components/Parties";
 import PartyForm from "../components/PartyForm";
 
 Modal.setAppElement("#root");
 
-let PartyPage = props => {
-	const [party, setParty] = useState(null);
-
-	useEffect(() => {
-		// const link = "http://localhost:5000/party/" + props.match.params.partyId + "/get";
-		// console.log(link);
-		fetch("http://localhost:5000/party/" + props.match.params.partyId + "/get", {
-			method: "GET",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then(response => response.json())
-			.then(responseJSON => {
-				setParty(responseJSON.data);
-			});
-	}, []);
-
+let ContactsPage = props => {
 	return (
 		<div>
 			<Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen} />
 			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
-			<div style={{ display: "flex", justifyContent: "space-around" }}>
-				{party && <h1>{party.title}</h1>}
-			</div>
-			<button>edit</button>
+			<div style={{ display: "flex", justifyContent: "space-around" }}>Contacts</div>
 		</div>
 	);
 };
@@ -63,9 +39,9 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-PartyPage = connect(
+ContactsPage = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(PartyPage);
+)(ContactsPage);
 
-export default PartyPage;
+export default ContactsPage;

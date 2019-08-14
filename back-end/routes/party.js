@@ -56,11 +56,32 @@ router.post("/party/create", (req, res) => {
 	}
 });
 
-router.post("/party/:partyId/get", (req, res) => {});
+router.get("/party/:partyId/get", (req, res) => {
+	try {
+		if (req.user) {
+			Party.findOne({ _id: req.params.partyId }, (err, party) => {
+				if (!err) {
+					res.json({
+						success: true,
+						msg: "Successfully loaded party information",
+						data: party,
+					});
+				}
+			});
+		}
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to load party..." });
+	}
+});
 
-router.post("/party/:partyId/edit", (req, res) => {});
-
-router.get("/party/:partyId/get", (req, res) => {});
+router.post("/party/:partyId/edit", (req, res) => {
+	// try{
+	// } catch(e) {
+	// 	console.log(e)
+	// 	res.json({ sucess: false, msg: "Failed to load party..." });
+	// }
+});
 
 router.get("/party/:partyId/notes/create", (req, res) => {});
 
