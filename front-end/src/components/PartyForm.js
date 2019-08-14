@@ -62,11 +62,18 @@ export default function PartyForm(props) {
 				onChange={e => setTitle(e.target.value)}
 			/>
 			<legend for="time">When is the Party?</legend>
-			<input
+			{/* <input
 				type="text"
 				className="form-control"
 				name="time"
 				placeholder="It's always party time, baby"
+				value={time}
+				onChange={e => setTime(e.target.value)}
+			/> */}
+			<input
+				type="datetime-local"
+				className="form-control"
+				name="time"
 				value={time}
 				onChange={e => setTime(e.target.value)}
 			/>

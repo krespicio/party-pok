@@ -18,7 +18,6 @@ export default function Parties() {
 		})
 			.then(response => response.json())
 			.then(responseJSON => {
-				console.log(responseJSON);
 				loadParties(responseJSON.data);
 			})
 			.catch(e => console.log("There's an error", e));
