@@ -27,7 +27,7 @@ export default function Parties() {
 		setParties(response);
 	};
 
-	const addNoteToParty = async partyId => {
+	const addNoteToParty = async (partyId, content) => {
 		const link = "http://localhost:5000/party/" + partyId + "/notes/create";
 		const now = new Date();
 		const response = await fetch(link, {
@@ -37,7 +37,7 @@ export default function Parties() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				content: "content",
+				content,
 				timeAdded: now,
 			}),
 		});
@@ -63,11 +63,13 @@ export default function Parties() {
 			{/* <ul>{parties && parties.map(party => <li>{party.title}</li>)}</ul> */}
 			{parties &&
 				parties.map(party => (
-					<MiniPartyPlan
-						party={party}
-						getPartyDetails={partyId => getPartyDetails(partyId)}
-						addNoteToParty={partyId => addNoteToParty(partyId)}
-					/>
+					<div>
+						<MiniPartyPlan
+							party={party}
+							getPartyDetails={partyId => getPartyDetails(partyId)}
+							addNoteToParty={(partyId, content) => addNoteToParty(partyId, content)}
+						/>
+					</div>
 				))}
 		</div>
 	);

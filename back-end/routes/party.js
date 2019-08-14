@@ -115,15 +115,17 @@ router.post("/party/:partyId/notes/create", (req, res) => {
 
 router.get("/party/:partyId/notes/get", (req, res) => {
 	try {
-		Party.findOne({ _id: req.params.partyId }, (err, party) => {
-			if (party) {
-				res.json({
-					success: true,
-					msg: "Successfully loaded party notes",
-					data: party.notes,
-				});
-			}
-		});
+		Party.findOne({ _id: req.params.partyId })
+			.populate("notes")
+			.exec((err, party) => {
+				if (party) {
+					res.json({
+						success: true,
+						msg: "Successfully loaded party notes",
+						data: party.notes,
+					});
+				}
+			});
 	} catch (e) {
 		console.log(e);
 		res.json({ sucess: false, msg: "Failed to load party notes..." });
