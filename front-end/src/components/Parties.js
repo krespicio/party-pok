@@ -70,7 +70,7 @@ export default function Parties() {
 	}
 
 	return (
-		<div>
+		<div style={styles.card}>
 			Current Parties
 			{/* <ul>{parties && parties.map(party => <li>{party.title}</li>)}</ul> */}
 			{parties &&
@@ -87,3 +87,13 @@ export default function Parties() {
 		</div>
 	);
 }
+
+const styles = {
+	card: {
+		backgroundColor: "#cffdf8 ",
+		padding: "5px",
+		borderRadius: "5px",
+		width: "150%",
+		margin: "5px",
+	},
+};

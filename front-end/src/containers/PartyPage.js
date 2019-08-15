@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 import { openPartyModal, closePartyModal } from "../actions/index";
 
 import Banner from "../components/Banner";
-import Notifications from "../components/Notifications";
-import Suggestions from "../components/Suggestions";
-import Parties from "../components/Parties";
 import PartyForm from "../components/PartyForm";
+import Budget from "../components/Budget";
+import GuestManager from "../components/GuestManager";
+import Notes from "../components/Notes";
 
 Modal.setAppElement("#root");
 
@@ -28,7 +28,6 @@ let PartyPage = props => {
 		})
 			.then(response => response.json())
 			.then(responseJSON => {
-				console.log(responseJSON.data.notes);
 				setParty(responseJSON.data);
 			});
 	}, []);
@@ -39,19 +38,19 @@ let PartyPage = props => {
 			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
+			{party && (
+				<div>
+					<h1>{party.title}</h1>
+					<button>edit</button>
+				</div>
+			)}
 			<div style={{ display: "flex", justifyContent: "space-around" }}>
-				{party && (
-					<div>
-						<h1>{party.title}</h1>
-						<div>
-							{party.notes.map(note => (
-								<h2>{note.content}</h2>
-							))}
-						</div>
-					</div>
-				)}
+				<GuestManager />
+				<div>
+					<Budget />
+					<Notes />
+				</div>
 			</div>
-			<button>edit</button>
 		</div>
 	);
 };

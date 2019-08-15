@@ -27,7 +27,7 @@ let HomePage = props => {
 	};
 
 	return (
-		<div>
+		<div style={{ backgroundColor: "#f76262", width: "100%", height: "100vh" }}>
 			<Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen} />
 			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />

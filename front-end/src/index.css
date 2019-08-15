@@ -10,6 +10,14 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+html {
+	background-color: "#f76262";
+}
+
+div#root {
+	background-color: "#f76262";
+}
+
 .spaced {
 	display: "flex";
 	justify-content: "space-between";

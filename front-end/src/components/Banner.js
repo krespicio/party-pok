@@ -60,7 +60,7 @@ export default function Banner(props) {
 				<button onClick={() => clickToContacts()}>Contacts</button>
 				<button>Search</button>
 			</div>
-			<div onClick={() => clickGoHome()} style={{ cursor: "pointer" }}>
+			<div onClick={() => clickGoHome()} style={{ cursor: "pointer", color: "white" }}>
 				Party Pok
 			</div>
 			<div>
@@ -76,5 +76,8 @@ const styles = {
 	banner: {
 		display: "flex",
 		justifyContent: "space-between",
+		height: "8%",
+		backgroundColor: "#216583",
+		padding: "5px",
 	},
 };
