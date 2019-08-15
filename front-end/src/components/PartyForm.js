@@ -7,6 +7,7 @@ export default function PartyForm(props) {
 	const [desc, setDesc] = useState("");
 	const [time, setTime] = useState("");
 	const [location, setLocation] = useState("");
+	const [budget, setBudget] = useState(0);
 	const [success, setSuccess] = useState(false);
 
 	const submitPartyInfo = async () => {
@@ -21,6 +22,7 @@ export default function PartyForm(props) {
 				description: desc,
 				time,
 				location,
+				budget,
 			}),
 		});
 		const responseJSON = await response.json();
@@ -94,6 +96,15 @@ export default function PartyForm(props) {
 				placeholder="This is going to be the best party of the year"
 				value={desc}
 				onChange={e => setDesc(e.target.value)}
+			/>
+			<legend for="budget">Enter your Budget</legend>
+			<input
+				type="text"
+				className="form-control"
+				name="budget"
+				placeholder="There's no cost to happiness"
+				value={budget}
+				onChange={e => setBudget(e.target.value)}
 			/>
 			<br />
 			<button className="register-submit-btn" onClick={() => submitPartyInfo()}>

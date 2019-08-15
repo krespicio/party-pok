@@ -36,7 +36,7 @@ router.post("/party/create", (req, res) => {
 				description: req.body.description,
 				time: req.body.time,
 				location: req.body.location,
-				// budget: req.body.budget,
+				budget: req.body.budget,
 			});
 			newParty.save(err => {
 				if (!err) {
@@ -60,15 +60,17 @@ router.post("/party/create", (req, res) => {
 router.get("/party/:partyId/get", (req, res) => {
 	try {
 		if (req.user) {
-			Party.findOne({ _id: req.params.partyId }, (err, party) => {
-				if (!err) {
-					res.json({
-						success: true,
-						msg: "Successfully loaded party information",
-						data: party,
-					});
-				}
-			});
+			Party.findOne({ _id: req.params.partyId })
+				.populate("notes")
+				.exec((err, party) => {
+					if (!err) {
+						res.json({
+							success: true,
+							msg: "Successfully loaded party information",
+							data: party,
+						});
+					}
+				});
 		}
 	} catch (e) {
 		console.log(e);
@@ -142,6 +144,21 @@ router.post("/party/:partyId/notes/:noteId/edit", (req, res) => {
 						res.json({ success: true, msg: "Note was successfully edited" });
 					}
 				});
+			}
+		});
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to edit party note..." });
+	}
+});
+
+router.post("/party/:partyId/notes/:noteId/delete", (req, res) => {
+	try {
+		Note.findOne({ _id: req.params.noteId }).remove(err => {
+			if (err) {
+				throw err;
+			} else {
+				res.json({ success: true, msg: "Successfully deleted party note" });
 			}
 		});
 	} catch (e) {

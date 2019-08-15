@@ -28,6 +28,7 @@ let PartyPage = props => {
 		})
 			.then(response => response.json())
 			.then(responseJSON => {
+				console.log(responseJSON.data.notes);
 				setParty(responseJSON.data);
 			});
 	}, []);
@@ -39,7 +40,16 @@ let PartyPage = props => {
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
 			<div style={{ display: "flex", justifyContent: "space-around" }}>
-				{party && <h1>{party.title}</h1>}
+				{party && (
+					<div>
+						<h1>{party.title}</h1>
+						<div>
+							{party.notes.map(note => (
+								<h2>{note.content}</h2>
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 			<button>edit</button>
 		</div>

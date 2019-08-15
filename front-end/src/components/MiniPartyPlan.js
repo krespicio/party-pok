@@ -26,11 +26,6 @@ export default function MiniPartyPlan(props) {
 		setNewNote(true);
 	};
 
-	const finishNewNote = () => {
-		reloadData();
-		setNewNote(false);
-	};
-
 	const reloadData = () => {
 		fetch("http://localhost:5000/party/" + props.party._id + "/notes/get", {
 			method: "GET",
@@ -46,21 +41,54 @@ export default function MiniPartyPlan(props) {
 			});
 	};
 
-	const findDaysAway = () => {};
+	const finishNewNote = () => {
+		reloadData();
+		setNewNote(false);
+	};
+
+	const finishDeleting = async (partyId, noteId) => {
+		await props.deletePartyNote(partyId, noteId);
+		reloadData();
+	};
+
+	const findDaysAway = datetime => {
+		// console.log(dattime, typeof datetime);
+		datetime = typeof datetime !== "undefined" ? datetime : "2014-01-01 01:02:03.123456";
+
+		datetime = new Date(datetime).getTime();
+		let now = new Date().getTime();
+
+		let milisec_diff;
+		if (datetime > now) {
+			milisec_diff = datetime - now;
+		} else {
+			return "The party already happened silly, billy";
+		}
+
+		const days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
+
+		return days;
+	};
 
 	return (
 		<div>
 			{props.party.title}
 			<ul>
-				<li>Days Away: {7}</li>
+				<li>Days Away: {findDaysAway(props.party.time)}</li>
 				<li>
-					Current Budget: {50}/{100} ({50}%)
+					Current Budget: {50}/{props.party.budget} (
+					{Math.floor((50 / props.party.budget) * 100)}%)
 				</li>
 				<li>
 					Current Notes:{" "}
 					<ul>
 						{notes.map(note => (
-							<li>{note.content}</li>
+							<li>
+								{note.content}
+								<button onClick={() => finishDeleting(props.party._id, note._id)}>
+									X
+								</button>
+							</li>
 						))}
 					</ul>
 				</li>
@@ -73,7 +101,6 @@ export default function MiniPartyPlan(props) {
 			) : (
 				<button onClick={() => startNewNote()}>Add Note</button>
 			)}
-			{/* <button onClick={() => props.addNoteToParty(props.party._id)}>Add Note</button> */}
 
 			<button onClick={() => props.getPartyDetails(props.party._id)}>(i)</button>
 		</div>

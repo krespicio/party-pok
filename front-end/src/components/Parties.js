@@ -42,9 +42,21 @@ export default function Parties() {
 			}),
 		});
 		const responseJSON = await response.json();
-		console.log(responseJSON);
 		if (responseJSON.success) {
-			console.log("we did it ");
+		}
+	};
+
+	const deletePartyNote = async (partyId, noteId) => {
+		const link = "http://localhost:5000/party/" + partyId + "/notes/" + noteId + "/delete";
+		const response = await fetch(link, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		const responseJSON = await response.json();
+		if (responseJSON.success) {
 		}
 	};
 
@@ -68,6 +80,7 @@ export default function Parties() {
 							party={party}
 							getPartyDetails={partyId => getPartyDetails(partyId)}
 							addNoteToParty={(partyId, content) => addNoteToParty(partyId, content)}
+							deletePartyNote={(partyId, noteId) => deletePartyNote(partyId, noteId)}
 						/>
 					</div>
 				))}
