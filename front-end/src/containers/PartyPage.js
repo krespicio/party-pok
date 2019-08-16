@@ -44,7 +44,7 @@ let PartyPage = props => {
 					<button>edit</button>
 
 					<div style={{ display: "flex", justifyContent: "space-around" }}>
-						<GuestManager />
+						<GuestManager time={party.time} location={party.location} />
 						<div>
 							<Budget budget={party.budget} expenses={party.expenses} />
 							<Notes notes={party.notes} />

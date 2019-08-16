@@ -29,12 +29,23 @@ router.post("/invitation/text/recieve", (req, res) => {
 	res.json({ success: true, msg: "Text back recieved" });
 });
 
-router.get("invitation/text/send", (req, res) => {
-	const invitation = `Hello, you are invited to attend ${""}'s party on ${""} at ${""}`;
-
+router.post("/invitation/text/send", (req, res) => {
+	const invitation = `Hello, you are invited to attend ${req.user.firstName}'s party on ${
+		req.body.time
+	} at ${req.body.location}`;
+	const from = "+17756245417";
 	client.messages
-		.create({ body: invitation, from: req.body.To, to: req.body.From })
-		.then(message => console.log(message));
+		.create({ body: invitation, from, to: req.body.to })
+		.then(message => {
+			console.log(message);
+			res.json({ success: true, msg: "invitation was sent" });
+		})
+		.catch(e => {
+			console.log(e);
+			res.json({ success: false, msg: "invitation was NOT sent" });
+		});
 });
+
+router.get("/invitation/text/confirmation", (req, res) => {});
 
 module.exports = router;
