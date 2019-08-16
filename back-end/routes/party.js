@@ -4,6 +4,7 @@ const router = express.Router();
 const Party = require("../models/Party");
 const User = require("../models/User");
 const Note = require("../models/Note");
+const Expense = require("../models/Expense");
 
 router.get("/parties/get", (req, res) => {
 	try {
@@ -167,20 +168,18 @@ router.post("/party/:partyId/notes/:noteId/delete", (req, res) => {
 	}
 });
 
-router.post("/party/:partyId/budget/get", (req, res) => {
-	// try{
-	// } catch(e) {
-	// 	console.log(e)
-	// 	res.json({ sucess: false, msg: "Failed to load party budget..." });
-	// }
+router.post("/party/:partyId/expenses/get", (req, res) => {
+	Party.findOne({ _id: req.params.partyId })
+		.populate("expenses")
+		.exec((err, party) => {});
 });
 
-router.get("/party/:partyId/budget/edit", (req, res) => {
-	// try{
-	// } catch(e) {
-	// 	console.log(e)
-	// 	res.json({ sucess: false, msg: "Failed to edit party budget..." });
-	// }
+router.get("/party/:partyId/expenses/edit", (req, res) => {});
+
+router.post("/expenses/:expenseId/edit", (req, res) => {
+	// Expense
 });
+
+router.post("/expenses/:expenseId/delete", (req, res) => {});
 
 module.exports = router;

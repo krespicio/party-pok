@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faInfoCircle, faInfo } from "@fortawesome/free-solid-svg-icons";
 
 function TextBoy(props) {
 	const [content, setContent] = useState("");
@@ -85,24 +87,40 @@ export default function MiniPartyPlan(props) {
 						{notes.map(note => (
 							<li>
 								{note.content}
-								<button onClick={() => finishDeleting(props.party._id, note._id)}>
-									X
-								</button>
+								<FontAwesomeIcon
+									onClick={() => finishDeleting(props.party._id, note._id)}
+									style={styles.icon}
+									icon={faTimes}
+								/>
 							</li>
 						))}
 					</ul>
 				</li>
 			</ul>
-			{newNote ? (
-				<TextBoy
-					addNoteToParty={content => props.addNoteToParty(props.party._id, content)}
-					finish={() => finishNewNote()}
-				/>
-			) : (
-				<button onClick={() => startNewNote()}>Add Note</button>
-			)}
+			<div style={{ display: "flex", justifyContent: "space-between" }}>
+				{newNote ? (
+					<TextBoy
+						addNoteToParty={content => props.addNoteToParty(props.party._id, content)}
+						finish={() => finishNewNote()}
+					/>
+				) : (
+					<button onClick={() => startNewNote()}>Add Note</button>
+				)}
 
-			<button onClick={() => props.getPartyDetails(props.party._id)}>(i)</button>
+				<FontAwesomeIcon
+					onClick={() => props.getPartyDetails(props.party._id)}
+					style={{ ...styles.icon, marginTop: "10px" }}
+					icon={faInfoCircle}
+				/>
+			</div>
 		</div>
 	);
 }
+
+const styles = {
+	icon: {
+		cursor: "pointer",
+		marginLeft: "5px",
+		marginRight: "5px",
+	},
+};

@@ -16,6 +16,7 @@ const User = require("./models/User.js");
 // Import Routes
 const auth = require("./routes/auth");
 const party = require("./routes/party");
+const twilio = require("./routes/twilio");
 
 const app = express();
 
@@ -123,6 +124,7 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/", twilio);
 app.use("/", auth(passport));
 app.use("/", party);
 

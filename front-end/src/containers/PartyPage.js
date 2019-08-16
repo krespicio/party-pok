@@ -42,15 +42,16 @@ let PartyPage = props => {
 				<div>
 					<h1>{party.title}</h1>
 					<button>edit</button>
+
+					<div style={{ display: "flex", justifyContent: "space-around" }}>
+						<GuestManager />
+						<div>
+							<Budget budget={party.budget} expenses={party.expenses} />
+							<Notes notes={party.notes} />
+						</div>
+					</div>
 				</div>
 			)}
-			<div style={{ display: "flex", justifyContent: "space-around" }}>
-				<GuestManager />
-				<div>
-					<Budget />
-					<Notes />
-				</div>
-			</div>
 		</div>
 	);
 };
