@@ -19,13 +19,25 @@ var partySchema = new Schema({
 		required: true,
 	},
 	budget: {
-		type: mongoose.Schema.ObjectId,
-		ref: "Budget",
+		type: Number,
+		required: true,
 	},
-	note: [
+	expenses: [
+		{
+			type: mongoose.Schema.ObjectId,
+			ref: "Budget",
+		},
+	],
+	notes: [
 		{
 			type: mongoose.Schema.ObjectId,
 			ref: "Note",
+		},
+	],
+	guests: [
+		{
+			type: mongoose.Schema.ObjectId,
+			ref: "Guest",
 		},
 	],
 });

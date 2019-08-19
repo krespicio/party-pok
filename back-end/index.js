@@ -15,7 +15,9 @@ const User = require("./models/User.js");
 
 // Import Routes
 const auth = require("./routes/auth");
-// const docRoutes = require("./routes/docRoutes");
+const party = require("./routes/party");
+const twilio = require("./routes/twilio");
+const contacts = require("./routes/contacts");
 
 const app = express();
 
@@ -123,8 +125,10 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/", twilio);
 app.use("/", auth(passport));
-// app.use("/", docRoutes);
+app.use("/", party);
+app.use("/", contacts);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
