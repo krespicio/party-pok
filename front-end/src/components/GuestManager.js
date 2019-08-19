@@ -95,7 +95,6 @@ export default function GuestManager(props) {
 		})
 			.then(response => response.json())
 			.then(responseJSON => {
-				console.log(responseJSON.data);
 				setGuests(responseJSON.data);
 			});
 	}, []);
@@ -106,9 +105,9 @@ export default function GuestManager(props) {
 			<h1>Confirmed</h1>
 			{guests
 				.filter(guest => guest.status === "Going")
-				.map(pendingGuest => (
+				.map(acceptedGuest => (
 					<li>
-						{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
+						{acceptedGuest.contact.firstName} {acceptedGuest.contact.lastName}
 					</li>
 				))}
 			<h1>Pending</h1>
@@ -122,7 +121,13 @@ export default function GuestManager(props) {
 					))}
 			</ul>
 			<h1>Busy</h1>
-
+			{guests
+				.filter(guest => guest.status === "Unable")
+				.map(declinedGuest => (
+					<li>
+						{declinedGuest.contact.firstName} {declinedGuest.contact.lastName}
+					</li>
+				))}
 			{inviteGuest ? (
 				<TextBoy
 					cancelInvite={() => setInviteGuest(false)}
