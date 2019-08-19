@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Modal from "react-modal";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import NewContact from "./NewContact";
+import { PromiseProvider } from "mongoose";
 
 Modal.setAppElement("#root");
 
@@ -14,8 +15,8 @@ function TextBoy(props) {
 	const text = async () => {
 		// Check if the contact exists first
 		if (await checkForContact(number)) {
-			console.log("its there");
-			// sendMessage();
+			// console.log("its there");
+			sendMessage();
 		} else {
 			// If contact does not exist, start a new form
 			setNewNumber(true);
@@ -34,6 +35,7 @@ function TextBoy(props) {
 				to: numberString,
 				time: new Date(props.time).toDateString(),
 				location: props.location,
+				id: props.id,
 			}),
 		});
 		const responseJSON = await response.json();
@@ -81,12 +83,44 @@ function TextBoy(props) {
 
 export default function GuestManager(props) {
 	const [inviteGuest, setInviteGuest] = useState(false);
+	const [guests, setGuests] = useState([]);
+
+	useEffect(() => {
+		fetch("http://localhost:5000/guests/" + props.id + "/get", {
+			method: "GET",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then(response => response.json())
+			.then(responseJSON => {
+				console.log(responseJSON.data);
+				setGuests(responseJSON.data);
+			});
+	}, []);
 
 	return (
 		<div style={styles.banner}>
 			<h1>GuestManager</h1>
 			<h1>Confirmed</h1>
+			{guests
+				.filter(guest => guest.status === "Going")
+				.map(pendingGuest => (
+					<li>
+						{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
+					</li>
+				))}
 			<h1>Pending</h1>
+			<ul>
+				{guests
+					.filter(guest => guest.status === "Undecided")
+					.map(pendingGuest => (
+						<li>
+							{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
+						</li>
+					))}
+			</ul>
 			<h1>Busy</h1>
 
 			{inviteGuest ? (
@@ -94,6 +128,7 @@ export default function GuestManager(props) {
 					cancelInvite={() => setInviteGuest(false)}
 					time={props.time}
 					location={props.location}
+					id={props.id}
 				/>
 			) : (
 				<button onClick={() => setInviteGuest(true)}>Send Invitation</button>

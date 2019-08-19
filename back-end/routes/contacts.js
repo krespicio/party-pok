@@ -3,6 +3,7 @@ const router = express.Router();
 
 const User = require("../models/User");
 const Contact = require("../models/Contact");
+const Party = require("../models/Party");
 
 router.post("/contact/check", (req, res) => {
 	if (req.user) {
@@ -40,6 +41,20 @@ router.post("/contact/create", (req, res) => {
 			});
 		});
 	}
+});
+
+router.get("/guests/:partyId/get", (req, res) => {
+	Party.findOne({ _id: req.params.partyId })
+		.populate({ path: "guests", populate: { path: "contact", model: "Contact" } })
+		.exec((err, party) => {
+			if (!err) {
+				res.json({
+					success: true,
+					msg: "Successfully populated guests",
+					data: party.guests,
+				});
+			}
+		});
 });
 
 module.exports = router;

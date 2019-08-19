@@ -17,8 +17,6 @@ let PartyPage = props => {
 	const [party, setParty] = useState(null);
 
 	useEffect(() => {
-		// const link = "http://localhost:5000/party/" + props.match.params.partyId + "/get";
-		// console.log(link);
 		fetch("http://localhost:5000/party/" + props.match.params.partyId + "/get", {
 			method: "GET",
 			credentials: "include",
@@ -44,7 +42,12 @@ let PartyPage = props => {
 					<button>edit</button>
 
 					<div style={{ display: "flex", justifyContent: "space-around" }}>
-						<GuestManager time={party.time} location={party.location} />
+						<GuestManager
+							time={party.time}
+							location={party.location}
+							id={party._id}
+							guestId={party.guests}
+						/>
 						<div>
 							<Budget budget={party.budget} expenses={party.expenses} />
 							<Notes notes={party.notes} />

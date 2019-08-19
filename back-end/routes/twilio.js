@@ -8,44 +8,93 @@ const twilio = require("twilio");
 
 const client = new twilio(accountSid, authToken);
 
-const sayYes = phoneNumber => {};
+const Guest = require("../models/Guest");
+const Contact = require("../models/Contact");
+const Party = require("../models/Party");
 
-const sayNo = phoneNumber => {
+const sayYes = (phoneNumber, res) => {
 	const from = "+17756245417";
-	const congrats = ``;
-
-	client.messages
-		.create({ body: congrats, from, to: phoneNumber })
-		.then(message => {
-			console.log(message);
-			res.json({ success: true, msg: "User sent in a weird response" });
-		})
-		.catch(e => {
-			console.log(e);
-			res.json({
-				success: false,
-				msg: "There's an error with sending a message back",
-			});
+	const congrats = `Congrats! We'll see you at the party :)`;
+	const originalNumber = phoneNumber
+		.split("")
+		.slice(2)
+		.join("");
+	Contact.findOne({ phone: originalNumber }, (err, contact) => {
+		// In the future, this should be a find because someone could be invited
+		// to multiple parties
+		Guest.findOne({ contact: contact.id }, (err2, guest) => {
+			console.log(guest);
+			if (guest) {
+				guest.status = "Going";
+				guest.save(err2 => {
+					client.messages
+						.create({ body: congrats, from, to: phoneNumber })
+						.then(message => {
+							console.log("here is the message", message);
+							res.json({ success: true, msg: "User sent in a yes" });
+						})
+						.catch(e => {
+							console.log("there was an error", e);
+							res.json({
+								success: false,
+								msg: "There's an error with sending a message back",
+							});
+						});
+				});
+			}
 		});
+	});
 };
 
-const sayMaybe = phoneNumber => {};
+const sayNo = (phoneNumber, res) => {
+	const from = "+17756245417";
+	const congrats = `You're hella shady >:\\`;
+	const originalNumber = phoneNumber
+		.split("")
+		.slice(2)
+		.join("");
+	Contact.findOne({ phone: originalNumber }, (err, contact) => {
+		// In the future, this should be a find because someone could be invited
+		// to multiple parties
+		Guest.findOne({ contact: contact.id }, (err2, guest) => {
+			console.log(guest);
+			if (guest) {
+				guest.status = "Unable";
+				guest.save(err2 => {
+					client.messages
+						.create({ body: congrats, from, to: phoneNumber })
+						.then(message => {
+							console.log("here is the message", message);
+							res.json({ success: true, msg: "User sent in a mp" });
+						})
+						.catch(e => {
+							console.log("there was an error", e);
+							res.json({
+								success: false,
+								msg: "There's an error with sending a message back",
+							});
+						});
+				});
+			}
+		});
+	});
+};
 
 // This route is for when you text twilio back
 router.post("/invitation/text/recieve", (req, res) => {
-	// If they reply to a message, then we should redirect to send them back a message
 	// This is Twilio's number
 	const from = "+17756245417";
-	const helpBack = ``;
-	switch (req.body.Body) {
-		case "Yes":
-			sayYes(req.body.From);
+	const helpBack = `Send No to reject the party. Send Yes to accept the invitation`;
+
+	const text = req.body.Body.toLowerCase();
+	console.log(text);
+	switch (text) {
+		case "yes":
+			sayYes(req.body.From, res);
 			break;
-		case "No":
-			sayNo(req.body.From);
-			break;
-		case "Maybe":
-			sayMaybe(req.body.From);
+		case "no":
+			console.log("here is a no");
+			sayNo(req.body.From, res);
 			break;
 		default:
 			client.messages
@@ -68,18 +117,54 @@ router.post("/invitation/text/recieve", (req, res) => {
 router.post("/invitation/text/send", (req, res) => {
 	const invitation = `Hey there! You are invited to attend ${req.user.firstName}'s party on ${
 		req.body.time
-	} at ${req.body.location}. Send Yes to RSVP, No to decline, and Maybe if you're undecided.`;
+	} at ${req.body.location}. Send Yes to RSVP or No to decline.`;
 	const from = "+17756245417";
-	client.messages
-		.create({ body: invitation, from, to: req.body.to })
-		.then(message => {
-			console.log(message);
-			res.json({ success: true, msg: "invitation was sent" });
-		})
-		.catch(e => {
-			console.log(e);
-			res.json({ success: false, msg: "invitation was NOT sent" });
-		});
+
+	// Change the phone number to be searched
+	const originalNumber = req.body.to
+		.split("")
+		.slice(2)
+		.join("");
+	console.log(originalNumber);
+
+	// Guest({phone: originalNumber}, (err, guest) => {
+	//     if(!guest){
+
+	//     }
+	// })
+
+	Contact.findOne({ phone: originalNumber }, (err, contact) => {
+		if (contact) {
+			let newGuest = new Guest({
+				contact,
+				status: "Undecided",
+			});
+			newGuest.save(err2 => {
+				if (!err2) {
+					Party.findOne({ _id: req.body.id }, (err3, party) => {
+						if (party) {
+							party.guests.push(newGuest);
+							party.save(err4 => {
+								client.messages
+									.create({ body: invitation, from, to: req.body.to })
+									.then(message => {
+										console.log(message);
+										res.json({ success: true, msg: "invitation was sent" });
+									})
+									.catch(e => {
+										console.log(e);
+										res.json({
+											success: false,
+											msg: "invitation was NOT sent",
+										});
+									});
+							});
+						}
+					});
+				}
+			});
+		}
+	});
 });
 
 // router.get("/invitation/text/confirmation", (req, res) => {
