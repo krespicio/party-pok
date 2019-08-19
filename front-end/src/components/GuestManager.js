@@ -1,28 +1,34 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import Modal from "react-modal";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import NewContact from "./NewContact";
+
+Modal.setAppElement("#root");
 
 function TextBoy(props) {
 	const [number, setNumber] = useState("");
+	const [newNumber, setNewNumber] = useState(false);
 	const sext = async () => {
-		const numberString = "+1" + number;
-		const response = await fetch("http://localhost:5000/invitation/text/send", {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				to: numberString,
-				time: new Date(props.time).toDateString(),
-				location: props.location,
-			}),
-		});
-		const responseJSON = await response.json();
-		if (responseJSON.success) {
-			props.cancelInvite();
-		}
+		setNewNumber(true);
+		// const numberString = "+1" + number;
+		// const response = await fetch("http://localhost:5000/invitation/text/send", {
+		// 	method: "POST",
+		// 	credentials: "include",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify({
+		// 		to: numberString,
+		// 		time: new Date(props.time).toDateString(),
+		// 		location: props.location,
+		// 	}),
+		// });
+		// const responseJSON = await response.json();
+		// if (responseJSON.success) {
+		// 	props.cancelInvite();
+		// }
 	};
 
 	const checkForContact = async phone => {
@@ -50,6 +56,9 @@ function TextBoy(props) {
 			/>
 			<button onClick={() => sext()}>submit</button>
 			<button onClick={() => props.cancelInvite()}>x</button>
+			<Modal isOpen={newNumber} contentLabel="Minimal Modal Example">
+				<NewContact setNewNumber={setNewNumber} phone={number} />
+			</Modal>
 		</div>
 	);
 }

@@ -1,0 +1,64 @@
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
+export default function NewContact(props) {
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+
+	const createNewContact = async () => {
+		const response = await fetch("http://localhost:5000/contact/create", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				firstName,
+				lastName,
+				phone: props.phone,
+			}),
+		});
+		const responseJSON = await response.json();
+		console.log(responseJSON);
+	};
+
+	return (
+		<div>
+			<div style={styles.banner}>
+				Create a New Contact
+				<button onClick={() => props.setNewNumber(false)}>close</button>
+			</div>
+			<legend for="title">First Name</legend>
+			<input
+				type="text"
+				className="form-control"
+				name="title"
+				placeholder="John"
+				value={firstName}
+				onChange={e => setFirstName(e.target.value)}
+			/>
+			<legend for="time">Last Name</legend>
+			<input
+				type="text"
+				className="form-control"
+				name="time"
+				placeholder="Smith"
+				value={lastName}
+				onChange={e => setLastName(e.target.value)}
+			/>
+			<br />
+			<button className="register-submit-btn" onClick={() => createNewContact()}>
+				Submit
+			</button>
+		</div>
+	);
+}
+
+const styles = {
+	banner: {
+		display: "flex",
+		justifyContent: "space-between",
+	},
+};
