@@ -10,40 +10,52 @@ Modal.setAppElement("#root");
 function TextBoy(props) {
 	const [number, setNumber] = useState("");
 	const [newNumber, setNewNumber] = useState(false);
-	const sext = async () => {
-		setNewNumber(true);
-		// const numberString = "+1" + number;
-		// const response = await fetch("http://localhost:5000/invitation/text/send", {
-		// 	method: "POST",
-		// 	credentials: "include",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify({
-		// 		to: numberString,
-		// 		time: new Date(props.time).toDateString(),
-		// 		location: props.location,
-		// 	}),
-		// });
-		// const responseJSON = await response.json();
-		// if (responseJSON.success) {
-		// 	props.cancelInvite();
-		// }
+
+	const text = async () => {
+		// Check if the contact exists first
+		if (await checkForContact(number)) {
+			console.log("its there");
+			// sendMessage();
+		} else {
+			// If contact does not exist, start a new form
+			setNewNumber(true);
+		}
+	};
+
+	const sendMessage = async () => {
+		const numberString = "+1" + number;
+		const response = await fetch("http://localhost:5000/invitation/text/send", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				to: numberString,
+				time: new Date(props.time).toDateString(),
+				location: props.location,
+			}),
+		});
+		const responseJSON = await response.json();
+		if (responseJSON.success) {
+			props.cancelInvite();
+		}
 	};
 
 	const checkForContact = async phone => {
-		const link = "";
-		const response = await fetch(link, {
-			method: "GET",
+		const response = await fetch("http://localhost:5000/contact/check", {
+			method: "POST",
 			credentials: "include",
 			headers: {
 				"Content-type": "application/json",
 			},
+			body: JSON.stringify({
+				phone: number,
+			}),
 		});
 		const responseJSON = await response.json();
-		if (responseJSON.success) {
-		} else {
-		}
+		console.log("this is the json", responseJSON);
+		return responseJSON.success;
 	};
 
 	return (
@@ -54,10 +66,14 @@ function TextBoy(props) {
 				onChange={e => setNumber(e.target.value)}
 				placeholder="Ex: 7753426969"
 			/>
-			<button onClick={() => sext()}>submit</button>
+			<button onClick={() => text()}>submit</button>
 			<button onClick={() => props.cancelInvite()}>x</button>
 			<Modal isOpen={newNumber} contentLabel="Minimal Modal Example">
-				<NewContact setNewNumber={setNewNumber} phone={number} />
+				<NewContact
+					setNewNumber={setNewNumber}
+					phone={number}
+					sendMessage={sendMessage.bind(this)}
+				/>
 			</Modal>
 		</div>
 	);

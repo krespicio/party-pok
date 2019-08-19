@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function NewContact(props) {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
+	// const [success, setSuccess] = useState(false);
 
 	const createNewContact = async () => {
 		const response = await fetch("http://localhost:5000/contact/create", {
@@ -21,7 +22,10 @@ export default function NewContact(props) {
 			}),
 		});
 		const responseJSON = await response.json();
-		console.log(responseJSON);
+		if (responseJSON.success) {
+			props.sendMessage();
+			props.setNewNumber(false);
+		}
 	};
 
 	return (
