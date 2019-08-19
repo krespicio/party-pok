@@ -34,6 +34,12 @@ var partySchema = new Schema({
 			ref: "Note",
 		},
 	],
+	guests: [
+		{
+			type: mongoose.Schema.ObjectId,
+			ref: "Guest",
+		},
+	],
 });
 
 const Party = mongoose.model("Party", partySchema);

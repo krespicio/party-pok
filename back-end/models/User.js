@@ -26,6 +26,13 @@ var userSchema = new Schema({
 			default: [],
 		},
 	],
+	contacts: [
+		{
+			type: [mongoose.Schema.ObjectId],
+			ref: "Party",
+			default: [],
+		},
+	],
 });
 
 const User = mongoose.model("User", userSchema);

@@ -25,6 +25,21 @@ function TextBoy(props) {
 		}
 	};
 
+	const checkForContact = async phone => {
+		const link = "";
+		const response = await fetch(link, {
+			method: "GET",
+			credentials: "include",
+			headers: {
+				"Content-type": "application/json",
+			},
+		});
+		const responseJSON = await response.json();
+		if (responseJSON.success) {
+		} else {
+		}
+	};
+
 	return (
 		<div>
 			<input

@@ -171,15 +171,64 @@ router.post("/party/:partyId/notes/:noteId/delete", (req, res) => {
 router.post("/party/:partyId/expenses/get", (req, res) => {
 	Party.findOne({ _id: req.params.partyId })
 		.populate("expenses")
-		.exec((err, party) => {});
+		.exec((err, party) => {
+			if (!err) {
+				res.json({
+					success: true,
+					msg: "Successfully loaded expenses",
+					data: party.expenses,
+				});
+			}
+		});
 });
 
-router.get("/party/:partyId/expenses/edit", (req, res) => {});
+router.get("/party/:partyId/expenses/create", (req, res) => {
+	Party.findOne({ _id: req.params.partyId }, (err, party) => {
+		let newExpense = new Expense({
+			cost: req.body.cost,
+			name: req.body.name,
+		});
+		newExpense.save(err2 => {
+			if (!err2) {
+				party.expenses.push(newExpense);
+				party.save(err3 => {
+					if (!err3) {
+						res.json({
+							success: true,
+							msg: "Successfully create new expense for party",
+						});
+					}
+				});
+			}
+		});
+	});
+});
 
 router.post("/expenses/:expenseId/edit", (req, res) => {
-	// Expense
+	Expense.findOneAndUpdate(
+		{ _id: req.params.expenseId },
+		{ name: req.body.name, cost: req.body.cost },
+		(err, expense) => {
+			if (!err) {
+				res.json({ success: true, msg: "Successfully edited party expense" });
+			}
+		}
+	);
 });
 
-router.post("/expenses/:expenseId/delete", (req, res) => {});
+router.post("/expenses/:expenseId/delete", (req, res) => {
+	try {
+		Expense.findOne({ _id: req.params.noteId }).remove(err => {
+			if (err) {
+				throw err;
+			} else {
+				res.json({ success: true, msg: "Successfully deleted party expense" });
+			}
+		});
+	} catch (e) {
+		console.log(e);
+		res.json({ sucess: false, msg: "Failed to delete party expense..." });
+	}
+});
 
 module.exports = router;
