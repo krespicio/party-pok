@@ -17,7 +17,10 @@ let HomePage = props => {
 	return (
 		<div style={styles.home}>
 			<Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen} />
-			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
+			<Modal
+				isOpen={props.modalIsOpen}
+				contentLabel="Minimal Modal Example"
+				className="modaling">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
 			<div style={{ display: "flex", justifyContent: "space-evenly" }}>
@@ -55,7 +58,7 @@ HomePage = connect(
 )(HomePage);
 
 const styles = {
-	home: { backgroundColor: "#f76262", width: "100%", height: "100vh", fontSize: "2.25em" },
+	home: { backgroundColor: "#f76262", width: "100%", height: "100vh" },
 	rightSide: { minWidth: "49%", display: "flex", flexDirection: "column" },
 };
 

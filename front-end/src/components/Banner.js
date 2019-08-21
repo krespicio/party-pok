@@ -73,7 +73,7 @@ export default function Banner(props) {
 				/>
 				<FontAwesomeIcon icon={faSearch} style={styles.icon} />
 			</div>
-			<div onClick={() => clickGoHome()} style={{ cursor: "pointer", color: "white" }}>
+			<div onClick={() => clickGoHome()} className="partypok">
 				Party Pok
 			</div>
 			<div style={styles.right}>
@@ -121,6 +121,6 @@ const styles = {
 	},
 	icon: {
 		cursor: "pointer",
-		fontSize: "1.65em",
+		fontSize: "2em",
 	},
 };

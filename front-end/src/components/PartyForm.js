@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import partyBear from "../images/Party-Bear.png";
 
 export default function PartyForm(props) {
 	const [title, setTitle] = useState("");
@@ -35,14 +38,20 @@ export default function PartyForm(props) {
 	if (success) {
 		return (
 			<div>
-				<button
-					onClick={() => {
-						setSuccess(false);
-						props.closePartyModal();
-					}}>
-					Close Modal
-				</button>
-				Congrats on making a party! It's going to be great! Picture a dog
+				<div style={styles.right}>
+					<FontAwesomeIcon
+						icon={faTimes}
+						style={styles.icon}
+						onClick={() => {
+							setSuccess(false);
+							props.closePartyModal();
+						}}
+					/>
+				</div>
+				<div style={styles.congrats}>
+					<img src={partyBear} style={styles.partyBear}></img>
+					Congrats on making a party! It's going to be great!
+				</div>
 			</div>
 		);
 	}
@@ -51,7 +60,14 @@ export default function PartyForm(props) {
 		<div>
 			<div style={styles.spaced}>
 				<h1>Start a New Party</h1>
-				<button onClick={() => props.closePartyModal()}>Close Modal</button>
+				<FontAwesomeIcon
+					icon={faTimes}
+					style={styles.icon}
+					onClick={() => {
+						setSuccess(false);
+						props.closePartyModal();
+					}}
+				/>
 			</div>
 
 			<legend for="title">Name the Party</legend>
@@ -118,5 +134,24 @@ const styles = {
 	spaced: {
 		display: "flex",
 		justifyContent: "space-between",
+	},
+	right: {
+		display: "flex",
+		justifyContent: "flex-end",
+	},
+	partyBear: {
+		width: "60%",
+		height: "60%",
+	},
+	congrats: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		fontSize: "2em",
+	},
+	icon: {
+		cursor: "pointer",
+		fontSize: "2em",
 	},
 };

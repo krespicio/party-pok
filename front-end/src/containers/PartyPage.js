@@ -33,7 +33,10 @@ let PartyPage = props => {
 	return (
 		<div>
 			<Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen} />
-			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
+			<Modal
+				isOpen={props.modalIsOpen}
+				contentLabel="Minimal Modal Example"
+				className="modaling">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
 			{party && (
