@@ -9,7 +9,7 @@ export default function Parties() {
 	const [partyId, setPartyId] = useState("");
 
 	useEffect(() => {
-		fetch("http://localhost:5000/parties/get", {
+		fetch("https://localhost:5000/parties/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
@@ -28,7 +28,7 @@ export default function Parties() {
 	};
 
 	const addNoteToParty = async (partyId, content) => {
-		const link = "http://localhost:5000/party/" + partyId + "/notes/create";
+		const link = "https://localhost:5000/party/" + partyId + "/notes/create";
 		const now = new Date();
 		const response = await fetch(link, {
 			method: "POST",
@@ -47,7 +47,7 @@ export default function Parties() {
 	};
 
 	const deletePartyNote = async (partyId, noteId) => {
-		const link = "http://localhost:5000/party/" + partyId + "/notes/" + noteId + "/delete";
+		const link = "https://localhost:5000/party/" + partyId + "/notes/" + noteId + "/delete";
 		const response = await fetch(link, {
 			method: "POST",
 			credentials: "include",
@@ -93,7 +93,6 @@ const styles = {
 		backgroundColor: "#cffdf8 ",
 		padding: "5px",
 		borderRadius: "5px",
-		width: "150%",
 		margin: "5px",
 	},
 };

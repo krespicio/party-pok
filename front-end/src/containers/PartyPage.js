@@ -17,7 +17,7 @@ let PartyPage = props => {
 	const [party, setParty] = useState(null);
 
 	useEffect(() => {
-		fetch("http://localhost:5000/party/" + props.match.params.partyId + "/get", {
+		fetch("https://localhost:5000/party/" + props.match.params.partyId + "/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
@@ -49,7 +49,11 @@ let PartyPage = props => {
 							guestId={party.guests}
 						/>
 						<div>
-							<Budget budget={party.budget} expenses={party.expenses} />
+							<Budget
+								id={party._id}
+								budget={party.budget}
+								expenses={party.expenses}
+							/>
 							<Notes notes={party.notes} />
 						</div>
 					</div>

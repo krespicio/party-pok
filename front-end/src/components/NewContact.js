@@ -9,7 +9,7 @@ export default function NewContact(props) {
 	// const [success, setSuccess] = useState(false);
 
 	const createNewContact = async () => {
-		const response = await fetch("http://localhost:5000/contact/create", {
+		const response = await fetch("https://localhost:5000/contact/create", {
 			method: "POST",
 			credentials: "include",
 			headers: {

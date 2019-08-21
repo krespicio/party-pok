@@ -47,7 +47,19 @@ module.exports = function(passport) {
 		})
 	);
 
+	router.get("/auth/pinterest", passport.authenticate("pinterest"));
+
+	router.get(
+		"/auth/pinterest/callback",
+		passport.authenticate("pinterest", { failureRedirect: "/login/failure" }),
+		function(req, res) {
+			// Successful authentication, redirect home.
+			res.redirect("/login/success");
+		}
+	);
+
 	router.get("/login/success", (req, res) => {
+		console.log("in login success");
 		res.json({ success: true });
 		// console.log("success", req.user, req.session.user);
 		return;

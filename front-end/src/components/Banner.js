@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faHome,
+	faSearch,
+	faAddressBook,
+	faBirthdayCake,
+	faQuestionCircle,
+	faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -55,18 +64,34 @@ export default function Banner(props) {
 
 	return (
 		<div style={styles.banner}>
-			<div>
-				<button onClick={() => clickGoHome()}>Home</button>
-				<button onClick={() => clickToContacts()}>Contacts</button>
-				<button>Search</button>
+			<div style={styles.left}>
+				<FontAwesomeIcon icon={faHome} style={styles.icon} onClick={() => clickGoHome()} />
+				<FontAwesomeIcon
+					icon={faAddressBook}
+					style={styles.icon}
+					onClick={() => clickToContacts()}
+				/>
+				<FontAwesomeIcon icon={faSearch} style={styles.icon} />
 			</div>
 			<div onClick={() => clickGoHome()} style={{ cursor: "pointer", color: "white" }}>
 				Party Pok
 			</div>
-			<div>
-				<button onClick={() => createParty()}>Create Party</button>
-				<button onClick={() => clickToInfo()}>Info</button>
-				<button onClick={() => clickToProfile()}>Profile</button>
+			<div style={styles.right}>
+				<FontAwesomeIcon
+					icon={faBirthdayCake}
+					style={styles.icon}
+					onClick={() => createParty()}
+				/>
+				<FontAwesomeIcon
+					icon={faQuestionCircle}
+					style={styles.icon}
+					onClick={() => clickToInfo()}
+				/>
+				<FontAwesomeIcon
+					icon={faUser}
+					style={styles.icon}
+					onClick={() => clickToProfile()}
+				/>
 			</div>
 		</div>
 	);
@@ -79,5 +104,23 @@ const styles = {
 		height: "8%",
 		backgroundColor: "#216583",
 		padding: "5px",
+		alignItems: "center",
+		marginBottom: "15px",
+	},
+	left: {
+		marginLeft: "5px",
+		display: "flex",
+		justifyContent: "space-between",
+		width: "15%",
+	},
+	right: {
+		marginRight: "5px",
+		display: "flex",
+		justifyContent: "space-between",
+		width: "15%",
+	},
+	icon: {
+		cursor: "pointer",
+		fontSize: "1.65em",
 	},
 };

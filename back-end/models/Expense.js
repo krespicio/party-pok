@@ -6,9 +6,16 @@ var expenseSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	cost: {
+	budgeted: {
 		type: Number,
 		required: true,
+	},
+	actual: {
+		type: Number,
+		required: true,
+	},
+	description: {
+		type: String,
 	},
 });
 

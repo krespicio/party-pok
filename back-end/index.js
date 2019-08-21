@@ -4,7 +4,8 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook");
+// const FacebookStrategy = require("passport-facebook");
+const PinterestStrategy = require("passport-pinterest").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const crypto = require("crypto");
@@ -12,12 +13,14 @@ const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 const cors = require("cors");
 const User = require("./models/User.js");
+const fs = require("fs");
 
 // Import Routes
 const auth = require("./routes/auth");
 const party = require("./routes/party");
 const twilio = require("./routes/twilio");
 const contacts = require("./routes/contacts");
+const pinny = require("./routes/pinny");
 
 const app = express();
 
@@ -121,6 +124,23 @@ passport.use(
 // 		}
 // 	)
 // );
+passport.use(
+	new PinterestStrategy(
+		{
+			clientID: process.env.PINTEREST_APP_ID,
+			clientSecret: process.env.PINTEREST_APP_SECRET,
+			scope: ["read_public", "read_relationships"],
+			callbackURL: "https://localhost:5000/auth/pinterest/callback",
+			state: true,
+		},
+		function(accessToken, refreshToken, profile, done) {
+			console.log("henlo");
+			User.findOrCreate({ pinterestId: profile.id }, function(err, user) {
+				return done(err, user);
+			});
+		}
+	)
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -128,9 +148,24 @@ app.use(passport.session());
 app.use("/", twilio);
 app.use("/", auth(passport));
 app.use("/", party);
+app.use("/", pinny);
 app.use("/", contacts);
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+const https = require("https");
+
+https
+	.createServer(
+		{
+			key: fs.readFileSync("server.key"),
+			cert: fs.readFileSync("server.cert"),
+		},
+		app
+	)
+	.listen(port, () => {
+		console.log("Listening... on", port);
+	});
 
 module.exports = app;

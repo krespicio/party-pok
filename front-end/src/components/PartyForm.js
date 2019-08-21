@@ -11,7 +11,7 @@ export default function PartyForm(props) {
 	const [success, setSuccess] = useState(false);
 
 	const submitPartyInfo = async () => {
-		const response = await fetch("http://localhost:5000/party/create", {
+		const response = await fetch("https://localhost:5000/party/create", {
 			method: "POST",
 			credentials: "include",
 			headers: {
