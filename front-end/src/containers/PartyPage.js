@@ -17,6 +17,10 @@ let PartyPage = props => {
 	const [party, setParty] = useState(null);
 
 	useEffect(() => {
+		reload();
+	}, []);
+
+	const reload = () => {
 		fetch("https://localhost:5000/party/" + props.match.params.partyId + "/get", {
 			method: "GET",
 			credentials: "include",
@@ -28,7 +32,7 @@ let PartyPage = props => {
 			.then(responseJSON => {
 				setParty(responseJSON.data);
 			});
-	}, []);
+	};
 
 	return (
 		<div>
@@ -57,7 +61,7 @@ let PartyPage = props => {
 								budget={party.budget}
 								expenses={party.expenses}
 							/>
-							<Notes notes={party.notes} />
+							<Notes notes={party.notes} id={party._id} reload={() => reload()} />
 						</div>
 					</div>
 				</div>

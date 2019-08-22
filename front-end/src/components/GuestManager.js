@@ -102,32 +102,38 @@ export default function GuestManager(props) {
 	return (
 		<div style={styles.banner}>
 			<h1>GuestManager</h1>
-			<h1>Confirmed</h1>
-			{guests
-				.filter(guest => guest.status === "Going")
-				.map(acceptedGuest => (
-					<li>
-						{acceptedGuest.contact.firstName} {acceptedGuest.contact.lastName}
-					</li>
-				))}
-			<h1>Pending</h1>
-			<ul>
-				{guests
-					.filter(guest => guest.status === "Undecided")
-					.map(pendingGuest => (
-						<li>
-							{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
-						</li>
-					))}
-			</ul>
-			<h1>Busy</h1>
-			{guests
-				.filter(guest => guest.status === "Unable")
-				.map(declinedGuest => (
-					<li>
-						{declinedGuest.contact.firstName} {declinedGuest.contact.lastName}
-					</li>
-				))}
+			{guests.length === 0 ? (
+				<h2>You haven't invited anyone, silly!</h2>
+			) : (
+				<div>
+					<h1>Confirmed</h1>
+					{guests
+						.filter(guest => guest.status === "Going")
+						.map(acceptedGuest => (
+							<li>
+								{acceptedGuest.contact.firstName} {acceptedGuest.contact.lastName}
+							</li>
+						))}
+					<h1>Pending</h1>
+					<ul>
+						{guests
+							.filter(guest => guest.status === "Undecided")
+							.map(pendingGuest => (
+								<li>
+									{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
+								</li>
+							))}
+					</ul>
+					<h1>Busy</h1>
+					{guests
+						.filter(guest => guest.status === "Unable")
+						.map(declinedGuest => (
+							<li>
+								{declinedGuest.contact.firstName} {declinedGuest.contact.lastName}
+							</li>
+						))}
+				</div>
+			)}
 			{inviteGuest ? (
 				<TextBoy
 					cancelInvite={() => setInviteGuest(false)}

@@ -23,7 +23,12 @@ let HomePage = props => {
 				className="modaling">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
-			<div style={{ display: "flex", justifyContent: "space-evenly" }}>
+			<div
+				style={{
+					display: "flex",
+					justifyContent: "space-evenly",
+					backgroundColor: "#f76262",
+				}}>
 				<Suggestions />
 				<div style={styles.rightSide}>
 					<Notifications />

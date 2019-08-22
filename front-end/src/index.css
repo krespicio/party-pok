@@ -14,12 +14,12 @@ code {
 
 html {
 	background-color: "#f76262";
-	font-size: 2em;
+	/* font-size: 2em; */
 }
 
-/* div#root {
-	background-color: "white";
-} */
+div#root {
+	background-color: "#f76262";
+}
 
 .partypok {
 	font-family: "Roboto Slab", serif;

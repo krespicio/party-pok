@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import Modal from "react-modal";
+import Graphs from "./Graphs";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -54,19 +55,13 @@ function Textboy(props) {
 			/>
 			<button onClick={() => createExpense()}>submit</button>
 			<button onClick={() => props.cancelInvite()}>x</button>
-			{/* <Modal isOpen={newNumber} contentLabel="Minimal Modal Example">
-				<NewContact
-					setNewNumber={setNewNumber}
-					phone={number}
-					sendMessage={sendMessage.bind(this)}
-				/>
-			</Modal> */}
 		</div>
 	);
 }
 
 export default function Budget(props) {
 	const [expenses, setExpenses] = useState([]);
+	const [openGraphs, setOpenGraphs] = useState(false);
 
 	useEffect(() => {
 		reload();
@@ -107,6 +102,10 @@ export default function Budget(props) {
 				</ul>
 			</div>
 			<Textboy id={props.id} reload={reload} />
+			<button onClick={() => setOpenGraphs(true)}>Send me thru the roof</button>
+			<Modal isOpen={openGraphs} contentLabel="Minimal Modal Example">
+				<Graphs close={() => setOpenGraphs(false)} expenses={expenses} />
+			</Modal>
 		</div>
 	);
 }
