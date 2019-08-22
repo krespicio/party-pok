@@ -23,18 +23,7 @@ export default function DonutGraph(props) {
 	}
 
 	if (props.expenses.length === 0) {
-		return (
-			<div>
-				<div style={{ display: "flex", justifyContent: "flex-end" }}>
-					<FontAwesomeIcon
-						icon={faTimes}
-						style={styles.icon}
-						onClick={() => props.close()}
-					/>
-				</div>
-				<h1>You haven't entered any expenses yet!</h1>
-			</div>
-		);
+		return <div></div>;
 	}
 
 	return (

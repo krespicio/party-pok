@@ -43,7 +43,7 @@ export default function Notes(props) {
 
 	return (
 		<div style={styles.banner}>
-			<h1>Notes</h1>
+			<h2>Notes</h2>
 			{props.notes.map(note => (
 				<div style={styles.note}>
 					<h4>

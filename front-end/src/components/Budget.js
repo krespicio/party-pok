@@ -3,6 +3,8 @@ import Modal from "react-modal";
 import BarGraph from "./BarGraph";
 import DonutGraph from "./DonutGraph";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -27,6 +29,7 @@ function Textboy(props) {
 		});
 		const responseJSON = await response.json();
 		if (responseJSON.success) {
+			props.close();
 			props.reload();
 		}
 	};
@@ -36,27 +39,39 @@ function Textboy(props) {
 	const editExpense = () => {};
 
 	return (
-		<div>
+		<div style={styles.input}>
+			<strong>Name of Expense</strong>
 			<input
 				type="text"
 				value={name}
 				onChange={e => setName(e.target.value)}
 				placeholder="Ex: Bouncy House"
 			/>
+			<strong>Budgeted Amount</strong>
 			<input
 				type="number"
 				value={budgeted}
 				onChange={e => setBudgeted(e.target.value)}
 				placeholder="Ex: 100"
 			/>
+			<strong>Actual Amount</strong>
 			<input
 				type="number"
 				value={actual}
 				onChange={e => setActual(e.target.value)}
 				placeholder="Ex: 100"
 			/>
-			<button onClick={() => createExpense()}>submit</button>
-			<button onClick={() => props.cancelInvite()}>x</button>
+			<div style={styles.send}>
+				<div style={styles.button} onClick={() => createExpense()}>
+					Add Expense
+					<FontAwesomeIcon style={styles.icon} icon={faPaperPlane} />
+				</div>
+				<FontAwesomeIcon
+					onClick={() => props.close()}
+					style={{ ...styles.icon, marginTop: "8px", fontSize: "1.4em" }}
+					icon={faTimes}
+				/>
+			</div>
 		</div>
 	);
 }
@@ -64,6 +79,7 @@ function Textboy(props) {
 export default function Budget(props) {
 	const [expenses, setExpenses] = useState([]);
 	const [openGraphs, setOpenGraphs] = useState(false);
+	const [openText, setOpenText] = useState(false);
 
 	useEffect(() => {
 		reload();
@@ -91,10 +107,18 @@ export default function Budget(props) {
 
 	return (
 		<div>
-			<h1>Budget: {props.budget}</h1>
+			<h2>Budget: {props.budget}</h2>
 			<DonutGraph close={() => setOpenGraphs(false)} expenses={expenses} />
 			<ProgressBar
+				style={{ marginTop: "20px" }}
 				now={(findActualSpent() / props.budget) * 100}
+				variant={
+					(findActualSpent() / props.budget) * 100 < 80
+						? "info"
+						: (findActualSpent() / props.budget) * 100 < 100
+						? "warning"
+						: "danger"
+				}
 				label={`Spent $${findActualSpent()} out of Budgeted $${props.budget}`}
 			/>
 
@@ -108,8 +132,12 @@ export default function Budget(props) {
 					))}
 				</ul>
 			</div>
-			<Textboy id={props.id} reload={reload} />
-			<button onClick={() => setOpenGraphs(true)}>Send me thru the roof</button>
+			<button onClick={() => setOpenGraphs(true)}>See Expense Distribution</button>
+			{openText ? (
+				<Textboy id={props.id} reload={reload} close={() => setOpenText(false)} />
+			) : (
+				<button onClick={() => setOpenText(true)}>Add Expense</button>
+			)}
 			<Modal isOpen={openGraphs} contentLabel="Minimal Modal Example">
 				<BarGraph close={() => setOpenGraphs(false)} expenses={expenses} />
 			</Modal>
@@ -118,8 +146,28 @@ export default function Budget(props) {
 }
 
 const styles = {
-	banner: {
+	input: {
 		display: "flex",
-		justifyContent: "space-between",
+		flexDirection: "column",
+		// minHeight: "180px",
+	},
+	send: {
+		marginTop: "10px",
+		display: "flex",
+		justifyContent: "flex-end",
+		// marginBorder:
+	},
+	icon: {
+		cursor: "pointer",
+		marginLeft: "8px",
+	},
+	button: {
+		backgroundColor: "#65c0ba",
+		borderColor: "#216583",
+		borderWidth: "1.8px",
+		borderStyle: "solid",
+		borderRadius: "5px",
+		padding: "4.5px",
+		cursor: "pointer",
 	},
 };

@@ -83,12 +83,18 @@ export default function Graphs(props) {
 						},
 					},
 					maintainAspectRatio: false,
+					title: {
+						display: true,
+						text: "Expense Distribution",
+						fontSize: 40,
+					},
 					scales: {
 						yAxes: [
 							{
 								scaleLabel: {
 									display: true,
 									labelString: "Currency Units",
+									fontSize: 15,
 								},
 							},
 						],

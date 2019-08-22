@@ -98,7 +98,7 @@ module.exports = function(passport) {
 		req.logout();
 		res.json({
 			success: true,
-			error: "",
+			msg: "Logged Out!",
 		});
 	});
 

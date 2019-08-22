@@ -46,23 +46,18 @@ let PartyPage = props => {
 			{party && (
 				<div>
 					<h1>{party.title}</h1>
-					<button>edit</button>
 
 					<div style={{ display: "flex", justifyContent: "space-around" }}>
-						<GuestManager
-							time={party.time}
-							location={party.location}
-							id={party._id}
-							guestId={party.guests}
-						/>
 						<div>
-							<Budget
+							<GuestManager
+								time={party.time}
+								location={party.location}
 								id={party._id}
-								budget={party.budget}
-								expenses={party.expenses}
+								guestId={party.guests}
 							/>
 							<Notes notes={party.notes} id={party._id} reload={() => reload()} />
 						</div>
+						<Budget id={party._id} budget={party.budget} expenses={party.expenses} />
 					</div>
 				</div>
 			)}

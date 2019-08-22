@@ -28,6 +28,15 @@ div#root {
 	font-size: 1.8em;
 }
 
+/* .mybutton {
+	border-color: "red";
+	border-style: "solid";
+	border-radius: "5px";
+	border-width: "1.5px";
+	padding: "5px";
+	cursor: "pointer";
+} */
+
 .modaling {
 	position: absolute;
 	top: 40px;
