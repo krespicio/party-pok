@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import Graphs from "./Graphs";
+import BarGraph from "./BarGraph";
+import DonutGraph from "./DonutGraph";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -89,8 +91,13 @@ export default function Budget(props) {
 
 	return (
 		<div>
-			<h1>Budget</h1>
-			Max: {props.budget} Current: {findActualSpent()}
+			<h1>Budget: {props.budget}</h1>
+			<DonutGraph close={() => setOpenGraphs(false)} expenses={expenses} />
+			<ProgressBar
+				now={(findActualSpent() / props.budget) * 100}
+				label={`Spent $${findActualSpent()} out of Budgeted $${props.budget}`}
+			/>
+
 			<div>
 				Reported Expenses:
 				<ul>
@@ -104,7 +111,7 @@ export default function Budget(props) {
 			<Textboy id={props.id} reload={reload} />
 			<button onClick={() => setOpenGraphs(true)}>Send me thru the roof</button>
 			<Modal isOpen={openGraphs} contentLabel="Minimal Modal Example">
-				<Graphs close={() => setOpenGraphs(false)} expenses={expenses} />
+				<BarGraph close={() => setOpenGraphs(false)} expenses={expenses} />
 			</Modal>
 		</div>
 	);

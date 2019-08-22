@@ -38,7 +38,9 @@ export default function Graphs(props) {
 				<FontAwesomeIcon icon={faTimes} style={styles.icon} onClick={() => props.close()} />
 			</div>
 			<Bar
-				style={{ width: "50%", height: "50%", fontSize: "2em" }}
+				// style={{ width: "50%", height: "80%", fontSize: "2em" }}
+				width={100}
+				height={500}
 				data={{
 					datasets: [
 						{
@@ -70,7 +72,6 @@ export default function Graphs(props) {
 							generateLabels: function(chart) {
 								// const data = chart.data;
 								// const labels = data.labels;
-								console.log(chart.data);
 								return chart.data.datasets.map((dataset, i) => {
 									return {
 										text: dataset.label,
@@ -81,9 +82,7 @@ export default function Graphs(props) {
 							},
 						},
 					},
-					// labels: {
-					// 	fontSize: "2em",
-					// },
+					maintainAspectRatio: false,
 					scales: {
 						yAxes: [
 							{
