@@ -152,20 +152,20 @@ app.use("/", pinny);
 app.use("/", contacts);
 
 const port = process.env.PORT || 5000;
-// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-const https = require("https");
+// const https = require("https");
 
-https
-	.createServer(
-		{
-			key: fs.readFileSync("server.key"),
-			cert: fs.readFileSync("server.cert"),
-		},
-		app
-	)
-	.listen(port, () => {
-		console.log("Listening... on", port);
-	});
+// https
+// 	.createServer(
+// 		{
+// 			key: fs.readFileSync("server.key"),
+// 			cert: fs.readFileSync("server.cert"),
+// 		},
+// 		app
+// 	)
+// 	.listen(port, () => {
+// 		console.log("Listening... on", port);
+// 	});
 
 module.exports = app;

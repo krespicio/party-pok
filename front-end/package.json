@@ -8,6 +8,7 @@
 		"@fortawesome/react-fontawesome": "^0.1.4",
 		"bootstrap": "^4.3.1",
 		"chart.js": "^2.8.0",
+		"cheerio": "^1.0.0-rc.3",
 		"node-sass": "^4.12.0",
 		"react": "^16.9.0",
 		"react-awesome-button": "^6.1.2",
@@ -18,7 +19,8 @@
 		"react-redux": "^7.1.0",
 		"react-router-dom": "^5.0.1",
 		"react-scripts": "3.1.0",
-		"redux": "^4.0.4"
+		"redux": "^4.0.4",
+		"request": "^2.88.0"
 	},
 	"scripts": {
 		"start": "react-scripts start",

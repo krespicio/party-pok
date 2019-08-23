@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
 import Modal from "react-modal";
@@ -21,7 +22,7 @@ let PartyPage = props => {
 	}, []);
 
 	const reload = () => {
-		fetch("https://localhost:5000/party/" + props.match.params.partyId + "/get", {
+		fetch(startingLink + "/party/" + props.match.params.partyId + "/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Modal from "react-modal";
 
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NewContact from "./NewContact";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,7 +27,7 @@ function TextBoy(props) {
 
 	const sendMessage = async () => {
 		const numberString = "+1" + number;
-		const response = await fetch("https://localhost:5000/invitation/text/send", {
+		const response = await fetch(startingLink + "/invitation/text/send", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -46,7 +47,7 @@ function TextBoy(props) {
 	};
 
 	const checkForContact = async phone => {
-		const response = await fetch("https://localhost:5000/contact/check", {
+		const response = await fetch(startingLink + "/contact/check", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -94,7 +95,7 @@ export default function GuestManager(props) {
 	const [guests, setGuests] = useState([]);
 
 	useEffect(() => {
-		fetch("https://localhost:5000/guests/" + props.id + "/get", {
+		fetch(startingLink + "/guests/" + props.id + "/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {

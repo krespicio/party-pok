@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function TextBoy(props) {
@@ -27,7 +28,7 @@ export default function Notes(props) {
 	const [add, setAdd] = useState(false);
 
 	const addNote = async (partyId, content) => {
-		const link = "https://localhost:5000/party/" + partyId + "/notes/create";
+		const link = startingLink + "/party/" + partyId + "/notes/create";
 		const now = new Date();
 		const response = await fetch(link, {
 			method: "POST",

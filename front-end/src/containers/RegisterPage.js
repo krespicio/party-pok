@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router-dom";
+import startingLink from "../link";
 
 export default function RegisterPage() {
 	const [username, setUsername] = useState("");
@@ -50,7 +51,7 @@ export default function RegisterPage() {
 	};
 
 	const postSubmit = async () => {
-		const response = await fetch("https://localhost:5000/register", {
+		const response = await fetch(startingLink + "/register", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -69,7 +70,7 @@ export default function RegisterPage() {
 	};
 
 	const postLogin = async () => {
-		const response = await fetch("https://localhost:5000/login", {
+		const response = await fetch(startingLink + "/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -89,23 +90,23 @@ export default function RegisterPage() {
 		}
 	};
 
-	const pinterestLogin = async () => {
-		const response = await fetch("https://localhost:5000/auth/pinterest", {
-			method: "GET",
-			redirect: "follow",
-			credentials: "include",
-			headers: {
-				"Access-Control-Allow-Origin": "*", // Required for CORS support to work
-				"Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-			},
-		});
-		const content = await response.json();
-		if (!content.success) {
-			setErrorText("Wrong username or password");
-		} else {
-			setLogin(true);
-		}
-	};
+	// const pinterestLogin = async () => {
+	// 	const response = await fetch("https://localhost:5000/auth/pinterest", {
+	// 		method: "GET",
+	// 		redirect: "follow",
+	// 		credentials: "include",
+	// 		headers: {
+	// 			"Access-Control-Allow-Origin": "*", // Required for CORS support to work
+	// 			"Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+	// 		},
+	// 	});
+	// 	const content = await response.json();
+	// 	if (!content.success) {
+	// 		setErrorText("Wrong username or password");
+	// 	} else {
+	// 		setLogin(true);
+	// 	}
+	// };
 
 	const flipCard = () => {
 		setFlipStyle({ transform: `rotateY(180deg)` });

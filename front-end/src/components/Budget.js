@@ -8,6 +8,7 @@ import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 // import { AwesomeButton } from "react-awesome-button";
 // import AwesomeButtonStyles from "react-awesome-button/src/styles/styles.scss";
 
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Textboy(props) {
@@ -16,7 +17,7 @@ function Textboy(props) {
 	const [actual, setActual] = useState("");
 
 	const createExpense = async () => {
-		const link = "https://localhost:5000/party/" + props.id + "/expenses/create";
+		const link = startingLink + "/party/" + props.id + "/expenses/create";
 		const response = await fetch(link, {
 			method: "POST",
 			credentials: "include",
@@ -64,7 +65,7 @@ function Textboy(props) {
 				placeholder="Ex: 100"
 			/>
 			<div style={styles.send}>
-				<button>
+				<button onClick={() => createExpense()}>
 					Add Expense
 					<FontAwesomeIcon style={styles.icon} icon={faPaperPlane} />
 				</button>
@@ -88,7 +89,7 @@ export default function Budget(props) {
 	}, []);
 
 	const reload = () => {
-		fetch("https://localhost:5000/party/" + props.id + "/expenses/get", {
+		fetch(startingLink + "/party/" + props.id + "/expenses/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {

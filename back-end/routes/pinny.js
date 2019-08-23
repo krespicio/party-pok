@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const fetch = require("node-fetch");
+const rp = require("request-promise");
+const cheerio = require("cheerio");
 
 const token = process.env.PINTEREST_APP_TOKEN;
 
@@ -15,10 +17,7 @@ router.post("/pinterest", (req, res) => {
 	fetch(link, {
 		method: "GET",
 		headers: {
-			// "Content-Type": "application/json",
 			Authorization: `Bearer ${token}`,
-			// "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-			// "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
 		},
 	})
 		.then(response => response.json())
@@ -35,4 +34,25 @@ router.post("/pinterest", (req, res) => {
 		});
 });
 
+router.get("/yeet", (req, res) => {
+	console.log("yeetus");
+	const options = {
+		uri: "https://www.prettymyparty.com/26-sweet-ice-cream-party-ideas/",
+		transform: function(body) {
+			return cheerio.load(body);
+		},
+	};
+
+	rp(options)
+		.then(function($) {
+			// Process html like you would with jQuery...
+			res.json({ success: true, data: $("img")["16"].attribs });
+			console.log($("img")["16"]);
+		})
+		.catch(function(err) {
+			// Crawling failed or Cheerio choked...
+			res.json({ success: false });
+			console.log(err);
+		});
+});
 module.exports = router;

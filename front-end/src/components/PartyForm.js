@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import partyBear from "../images/Party-Bear.png";
@@ -14,7 +15,7 @@ export default function PartyForm(props) {
 	const [success, setSuccess] = useState(false);
 
 	const submitPartyInfo = async () => {
-		const response = await fetch("https://localhost:5000/party/create", {
+		const response = await fetch(startingLink + "/party/create", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -141,8 +142,8 @@ const styles = {
 		justifyContent: "flex-end",
 	},
 	partyBear: {
-		width: "60%",
-		height: "60%",
+		width: "35%",
+		height: "50%",
 	},
 	congrats: {
 		display: "flex",
