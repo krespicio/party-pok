@@ -25,6 +25,8 @@ export default function Banner(props) {
 	const clickGoHome = () => {
 		if (window.location.href !== "http://localhost:3000/") {
 			setGoHome(true);
+		} else {
+			window.location.reload();
 		}
 	};
 

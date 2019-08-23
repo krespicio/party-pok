@@ -45,6 +45,7 @@ export default function PartyForm(props) {
 						onClick={() => {
 							setSuccess(false);
 							props.closePartyModal();
+							window.location.reload();
 						}}
 					/>
 				</div>

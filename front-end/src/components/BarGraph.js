@@ -7,10 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Graphs(props) {
 	const findExtra = () => {
-		return props.expenses.reduce(
-			(acc, expense) => acc + (expense.budgeted - expense.actual),
-			0
-		);
+		return props.expenses.reduce((acc, expense) => acc - expense.actual, props.budget);
 	};
 
 	const findExtraColor = () => {

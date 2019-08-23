@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -11,8 +10,15 @@ function TextBoy(props) {
 	return (
 		<div>
 			<input type="text" value={content} onChange={e => setContent(e.target.value)} />
-			<button onClick={() => props.addNote(content)}>submit</button>
-			<button onClick={() => props.setAdd(false)}>x</button>
+			<button style={{ marginLeft: "10px" }} onClick={() => props.addNote(content)}>
+				Post
+				<FontAwesomeIcon style={{ ...styles.icon, marginTop: "0px" }} icon={faPaperPlane} />
+			</button>
+			<FontAwesomeIcon
+				style={{ ...styles.icon, fontSize: "1.5em" }}
+				icon={faTimes}
+				onClick={() => props.setAdd(false)}
+			/>
 		</div>
 	);
 }
@@ -73,6 +79,7 @@ const styles = {
 	icon: {
 		marginLeft: "8px",
 		marginTop: "10px",
+		cursor: "pointer",
 	},
 	note: {
 		display: "flex",

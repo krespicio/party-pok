@@ -4,9 +4,14 @@ const fetch = require("node-fetch");
 
 const token = process.env.PINTEREST_APP_TOKEN;
 
-router.get("/pinterest", (req, res) => {
+router.post("/pinterest", (req, res) => {
 	console.log("we about to go into the fetch for pinterest");
-	const link = `https://api.pinterest.com/v1/boards/kylerbar310/sundae-party/pins/?access_token=<${token}>`;
+	const search = req.body.search
+		.split(" ")
+		.join("-")
+		.toLowerCase();
+	console.log(search);
+	const link = `https://api.pinterest.com/v1/boards/kylerbar310/${search}/pins/?access_token=<${token}>`;
 	fetch(link, {
 		method: "GET",
 		headers: {

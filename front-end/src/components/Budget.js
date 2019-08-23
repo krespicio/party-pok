@@ -5,6 +5,8 @@ import DonutGraph from "./DonutGraph";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+// import { AwesomeButton } from "react-awesome-button";
+// import AwesomeButtonStyles from "react-awesome-button/src/styles/styles.scss";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -62,13 +64,13 @@ function Textboy(props) {
 				placeholder="Ex: 100"
 			/>
 			<div style={styles.send}>
-				<div style={styles.button} onClick={() => createExpense()}>
+				<button>
 					Add Expense
 					<FontAwesomeIcon style={styles.icon} icon={faPaperPlane} />
-				</div>
+				</button>
 				<FontAwesomeIcon
 					onClick={() => props.close()}
-					style={{ ...styles.icon, marginTop: "8px", fontSize: "1.4em" }}
+					style={{ ...styles.icon, marginTop: "2px", fontSize: "1.4em" }}
 					icon={faTimes}
 				/>
 			</div>
@@ -125,6 +127,7 @@ export default function Budget(props) {
 			<div>
 				Reported Expenses:
 				<ul>
+					{expenses.length === 0 && <li>None... Add Something!</li>}
 					{expenses.map(expense => (
 						<li>
 							{expense.name} - Actual: {expense.actual}, Budgeted: {expense.budgeted}
@@ -132,14 +135,20 @@ export default function Budget(props) {
 					))}
 				</ul>
 			</div>
-			<button onClick={() => setOpenGraphs(true)}>See Expense Distribution</button>
+			<button onClick={() => setOpenGraphs(true)} className="button-on-right">
+				See Expense Distribution
+			</button>
 			{openText ? (
 				<Textboy id={props.id} reload={reload} close={() => setOpenText(false)} />
 			) : (
 				<button onClick={() => setOpenText(true)}>Add Expense</button>
 			)}
 			<Modal isOpen={openGraphs} contentLabel="Minimal Modal Example">
-				<BarGraph close={() => setOpenGraphs(false)} expenses={expenses} />
+				<BarGraph
+					close={() => setOpenGraphs(false)}
+					expenses={expenses}
+					budget={props.budget}
+				/>
 			</Modal>
 		</div>
 	);
@@ -149,6 +158,7 @@ const styles = {
 	input: {
 		display: "flex",
 		flexDirection: "column",
+		marginTop: "20px",
 		// minHeight: "180px",
 	},
 	send: {
@@ -160,14 +170,5 @@ const styles = {
 	icon: {
 		cursor: "pointer",
 		marginLeft: "8px",
-	},
-	button: {
-		backgroundColor: "#65c0ba",
-		borderColor: "#216583",
-		borderWidth: "1.8px",
-		borderStyle: "solid",
-		borderRadius: "5px",
-		padding: "4.5px",
-		cursor: "pointer",
 	},
 };

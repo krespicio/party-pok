@@ -4,7 +4,8 @@ import Modal from "react-modal";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import NewContact from "./NewContact";
-import { PromiseProvider } from "mongoose";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#root");
 
@@ -68,8 +69,15 @@ function TextBoy(props) {
 				onChange={e => setNumber(e.target.value)}
 				placeholder="Ex: 7753426969"
 			/>
-			<button onClick={() => text()}>submit</button>
-			<button onClick={() => props.cancelInvite()}>x</button>
+			<button style={{ marginLeft: "10px" }} onClick={() => text()}>
+				Invite
+				<FontAwesomeIcon style={styles.icon} icon={faPaperPlane} />
+			</button>
+			<FontAwesomeIcon
+				onClick={() => props.cancelInvite()}
+				style={{ ...styles.icon, marginTop: "2px", fontSize: "1.4em" }}
+				icon={faTimes}
+			/>
 			<Modal isOpen={newNumber} contentLabel="Minimal Modal Example">
 				<NewContact
 					setNewNumber={setNewNumber}
@@ -158,5 +166,10 @@ export default function GuestManager(props) {
 const styles = {
 	banner: {
 		display: "block",
+	},
+	icon: {
+		cursor: "pointer",
+		marginLeft: "8px",
+		marginTop: "5px",
 	},
 };

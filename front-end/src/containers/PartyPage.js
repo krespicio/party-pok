@@ -44,11 +44,17 @@ let PartyPage = props => {
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
 			{party && (
-				<div>
-					<h1>{party.title}</h1>
+				<div className="new-font">
+					<h1 className="party-title">{party.title}</h1>
 
 					<div style={{ display: "flex", justifyContent: "space-around" }}>
-						<div>
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								// justifyContent: "flex-end",
+								minHeight: "80%",
+							}}>
 							<GuestManager
 								time={party.time}
 								location={party.location}

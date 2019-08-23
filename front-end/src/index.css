@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab&display=swap");
 
 body {
 	margin: 0;
@@ -12,15 +12,6 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-html {
-	background-color: "#f76262";
-	/* font-size: 2em; */
-}
-
-div#root {
-	background-color: "#f76262";
-}
-
 .partypok {
 	font-family: "Roboto Slab", serif;
 	cursor: pointer;
@@ -28,14 +19,32 @@ div#root {
 	font-size: 1.8em;
 }
 
-/* .mybutton {
-	border-color: "red";
-	border-style: "solid";
-	border-radius: "5px";
-	border-width: "1.5px";
-	padding: "5px";
-	cursor: "pointer";
+body button {
+	border-color: #216583;
+	background-color: #cffdf8;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 10px;
+}
+
+/* input {
+	border-color: #f76262;
 } */
+
+.party-title {
+	/* background-color: #f76262; */
+	margin-left: 2%;
+	font-family: "Roboto Slab", serif;
+}
+
+.button-on-right {
+	margin-right: 20px;
+	margin-left: 15px;
+}
+
+.new-font {
+	font-family: "Open Sans", sans-serif;
+}
 
 .modaling {
 	position: absolute;
