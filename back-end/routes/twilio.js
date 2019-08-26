@@ -27,19 +27,23 @@ const sayYes = (phoneNumber, res) => {
 			if (guest) {
 				guest.status = "Going";
 				guest.save(err2 => {
-					client.messages
-						.create({ body: congrats, from, to: phoneNumber })
-						.then(message => {
-							console.log("here is the message", message);
-							res.json({ success: true, msg: "User sent in a yes" });
-						})
-						.catch(e => {
-							console.log("there was an error", e);
-							res.json({
-								success: false,
-								msg: "There's an error with sending a message back",
+					if (!err2) {
+						client.messages
+							.create({ body: congrats, from, to: phoneNumber })
+							.then(message => {
+								console.log("here is the message", message);
+								res.status(200).json({ success: true, msg: "User sent in a yes" });
+							})
+							.catch(e => {
+								console.log("there was an error", e);
+								res.json({
+									success: false,
+									msg: "There's an error with sending a message back",
+								});
 							});
-						});
+					} else {
+						console.log(err2);
+					}
 				});
 			}
 		});
@@ -48,7 +52,7 @@ const sayYes = (phoneNumber, res) => {
 
 const sayNo = (phoneNumber, res) => {
 	const from = "+17756245417";
-	const congrats = `You're hella shady >:\\`;
+	const congrats = `That's alright, hope we see you at the next party`;
 	const originalNumber = phoneNumber
 		.split("")
 		.slice(2)
@@ -65,7 +69,7 @@ const sayNo = (phoneNumber, res) => {
 						.create({ body: congrats, from, to: phoneNumber })
 						.then(message => {
 							console.log("here is the message", message);
-							res.json({ success: true, msg: "User sent in a mp" });
+							res.status(200).json({ success: true, msg: "User sent in a mp" });
 						})
 						.catch(e => {
 							console.log("there was an error", e);
@@ -101,7 +105,7 @@ router.post("/invitation/text/recieve", (req, res) => {
 				.create({ body: helpBack, from, to: req.body.From })
 				.then(message => {
 					console.log(message);
-					res.json({ success: true, msg: "User sent in a weird response" });
+					res.status(200).json({ success: true, msg: "User sent in a weird response" });
 				})
 				.catch(e => {
 					console.log(e);

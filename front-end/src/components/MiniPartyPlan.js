@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faInfoCircle, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 function TextBoy(props) {
 	const [content, setContent] = useState("");
@@ -29,7 +30,7 @@ export default function MiniPartyPlan(props) {
 	};
 
 	const reloadData = () => {
-		fetch("http://localhost:5000/party/" + props.party._id + "/notes/get", {
+		fetch(startingLink + "/party/" + props.party._id + "/notes/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
@@ -78,7 +79,7 @@ export default function MiniPartyPlan(props) {
 			<ul>
 				<li>Days Away: {findDaysAway(props.party.time)}</li>
 				<li>
-					Current Budget: {50}/{props.party.budget} (
+					Current Budget: {0}/{props.party.budget} (
 					{Math.floor((50 / props.party.budget) * 100)}%)
 				</li>
 				<li>

@@ -14,27 +14,23 @@ import PartyForm from "../components/PartyForm";
 Modal.setAppElement("#root");
 
 let HomePage = props => {
-	const getUser = async () => {
-		const user = await fetch("http://localhost:5000/user", {
-			method: "GET",
-			credentials: "include",
-			redirect: "follow",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
-		console.log(await user.json());
-	};
-
 	return (
-		<div style={{ backgroundColor: "#f76262", width: "100%", height: "100vh" }}>
+		<div style={styles.home}>
 			<Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen} />
-			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
+			<Modal
+				isOpen={props.modalIsOpen}
+				contentLabel="Minimal Modal Example"
+				className="modaling">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
-			<div style={{ display: "flex", justifyContent: "space-around" }}>
+			<div
+				style={{
+					display: "flex",
+					justifyContent: "space-evenly",
+					backgroundColor: "#f76262",
+				}}>
 				<Suggestions />
-				<div>
+				<div style={styles.rightSide}>
 					<Notifications />
 					<Parties />
 				</div>
@@ -65,5 +61,10 @@ HomePage = connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(HomePage);
+
+const styles = {
+	home: { backgroundColor: "#f76262", width: "100%", height: "100vh" },
+	rightSide: { minWidth: "49%", display: "flex", flexDirection: "column" },
+};
 
 export default HomePage;

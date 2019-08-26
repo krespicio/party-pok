@@ -168,7 +168,8 @@ router.post("/party/:partyId/notes/:noteId/delete", (req, res) => {
 	}
 });
 
-router.post("/party/:partyId/expenses/get", (req, res) => {
+router.get("/party/:partyId/expenses/get", (req, res) => {
+	console.log("we in");
 	Party.findOne({ _id: req.params.partyId })
 		.populate("expenses")
 		.exec((err, party) => {
@@ -178,29 +179,39 @@ router.post("/party/:partyId/expenses/get", (req, res) => {
 					msg: "Successfully loaded expenses",
 					data: party.expenses,
 				});
+			} else {
+				console.log(err);
 			}
 		});
 });
 
-router.get("/party/:partyId/expenses/create", (req, res) => {
+router.post("/party/:partyId/expenses/create", (req, res) => {
+	console.log("we are here ");
 	Party.findOne({ _id: req.params.partyId }, (err, party) => {
-		let newExpense = new Expense({
-			cost: req.body.cost,
-			name: req.body.name,
-		});
-		newExpense.save(err2 => {
-			if (!err2) {
-				party.expenses.push(newExpense);
-				party.save(err3 => {
-					if (!err3) {
-						res.json({
-							success: true,
-							msg: "Successfully create new expense for party",
-						});
-					}
-				});
-			}
-		});
+		if (!err) {
+			let newExpense = new Expense({
+				name: req.body.name,
+				budgeted: req.body.budgeted,
+				actual: req.body.actual,
+			});
+			newExpense.save(err2 => {
+				if (!err2) {
+					party.expenses.push(newExpense);
+					party.save(err3 => {
+						if (!err3) {
+							res.json({
+								success: true,
+								msg: "Successfully create new expense for party",
+							});
+						}
+					});
+				} else {
+					console.log(err2);
+				}
+			});
+		} else {
+			console.log(err);
+		}
 	});
 });
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MiniPartyPlan from "./MiniPartyPlan";
 import { Redirect } from "react-router-dom";
@@ -9,7 +10,7 @@ export default function Parties() {
 	const [partyId, setPartyId] = useState("");
 
 	useEffect(() => {
-		fetch("http://localhost:5000/parties/get", {
+		fetch(startingLink + "/parties/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
@@ -28,7 +29,7 @@ export default function Parties() {
 	};
 
 	const addNoteToParty = async (partyId, content) => {
-		const link = "http://localhost:5000/party/" + partyId + "/notes/create";
+		const link = startingLink + "/party/" + partyId + "/notes/create";
 		const now = new Date();
 		const response = await fetch(link, {
 			method: "POST",
@@ -47,7 +48,7 @@ export default function Parties() {
 	};
 
 	const deletePartyNote = async (partyId, noteId) => {
-		const link = "http://localhost:5000/party/" + partyId + "/notes/" + noteId + "/delete";
+		const link = startingLink + "/party/" + partyId + "/notes/" + noteId + "/delete";
 		const response = await fetch(link, {
 			method: "POST",
 			credentials: "include",
@@ -93,7 +94,6 @@ const styles = {
 		backgroundColor: "#cffdf8 ",
 		padding: "5px",
 		borderRadius: "5px",
-		width: "150%",
 		margin: "5px",
 	},
 };

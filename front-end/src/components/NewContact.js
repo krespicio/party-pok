@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function NewContact(props) {
@@ -9,7 +10,7 @@ export default function NewContact(props) {
 	// const [success, setSuccess] = useState(false);
 
 	const createNewContact = async () => {
-		const response = await fetch("http://localhost:5000/contact/create", {
+		const response = await fetch(startingLink + "/contact/create", {
 			method: "POST",
 			credentials: "include",
 			headers: {

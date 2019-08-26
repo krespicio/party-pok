@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Redirect } from "react-router-dom";
 import Modal from "react-modal";
@@ -17,7 +18,11 @@ let PartyPage = props => {
 	const [party, setParty] = useState(null);
 
 	useEffect(() => {
-		fetch("http://localhost:5000/party/" + props.match.params.partyId + "/get", {
+		reload();
+	}, []);
+
+	const reload = () => {
+		fetch(startingLink + "/party/" + props.match.params.partyId + "/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
@@ -28,30 +33,38 @@ let PartyPage = props => {
 			.then(responseJSON => {
 				setParty(responseJSON.data);
 			});
-	}, []);
+	};
 
 	return (
 		<div>
 			<Banner openPartyModal={() => props.openPartyModal()} modalIsOpen={props.modalIsOpen} />
-			<Modal isOpen={props.modalIsOpen} contentLabel="Minimal Modal Example">
+			<Modal
+				isOpen={props.modalIsOpen}
+				contentLabel="Minimal Modal Example"
+				className="modaling">
 				<PartyForm closePartyModal={() => props.closePartyModal()} />
 			</Modal>
 			{party && (
-				<div>
-					<h1>{party.title}</h1>
-					<button>edit</button>
+				<div className="new-font">
+					<h1 className="party-title">{party.title}</h1>
 
 					<div style={{ display: "flex", justifyContent: "space-around" }}>
-						<GuestManager
-							time={party.time}
-							location={party.location}
-							id={party._id}
-							guestId={party.guests}
-						/>
-						<div>
-							<Budget budget={party.budget} expenses={party.expenses} />
-							<Notes notes={party.notes} />
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								// justifyContent: "flex-end",
+								minHeight: "80%",
+							}}>
+							<GuestManager
+								time={party.time}
+								location={party.location}
+								id={party._id}
+								guestId={party.guests}
+							/>
+							<Notes notes={party.notes} id={party._id} reload={() => reload()} />
 						</div>
+						<Budget id={party._id} budget={party.budget} expenses={party.expenses} />
 					</div>
 				</div>
 			)}

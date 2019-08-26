@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Modal from "react-modal";
 
+import startingLink from "../link";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NewContact from "./NewContact";
-import { PromiseProvider } from "mongoose";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#root");
 
@@ -25,7 +27,7 @@ function TextBoy(props) {
 
 	const sendMessage = async () => {
 		const numberString = "+1" + number;
-		const response = await fetch("http://localhost:5000/invitation/text/send", {
+		const response = await fetch(startingLink + "/invitation/text/send", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -45,7 +47,7 @@ function TextBoy(props) {
 	};
 
 	const checkForContact = async phone => {
-		const response = await fetch("http://localhost:5000/contact/check", {
+		const response = await fetch(startingLink + "/contact/check", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -68,8 +70,15 @@ function TextBoy(props) {
 				onChange={e => setNumber(e.target.value)}
 				placeholder="Ex: 7753426969"
 			/>
-			<button onClick={() => text()}>submit</button>
-			<button onClick={() => props.cancelInvite()}>x</button>
+			<button style={{ marginLeft: "10px" }} onClick={() => text()}>
+				Invite
+				<FontAwesomeIcon style={styles.icon} icon={faPaperPlane} />
+			</button>
+			<FontAwesomeIcon
+				onClick={() => props.cancelInvite()}
+				style={{ ...styles.icon, marginTop: "2px", fontSize: "1.4em" }}
+				icon={faTimes}
+			/>
 			<Modal isOpen={newNumber} contentLabel="Minimal Modal Example">
 				<NewContact
 					setNewNumber={setNewNumber}
@@ -86,7 +95,7 @@ export default function GuestManager(props) {
 	const [guests, setGuests] = useState([]);
 
 	useEffect(() => {
-		fetch("http://localhost:5000/guests/" + props.id + "/get", {
+		fetch(startingLink + "/guests/" + props.id + "/get", {
 			method: "GET",
 			credentials: "include",
 			headers: {
@@ -101,33 +110,46 @@ export default function GuestManager(props) {
 
 	return (
 		<div style={styles.banner}>
-			<h1>GuestManager</h1>
-			<h1>Confirmed</h1>
-			{guests
-				.filter(guest => guest.status === "Going")
-				.map(acceptedGuest => (
-					<li>
-						{acceptedGuest.contact.firstName} {acceptedGuest.contact.lastName}
-					</li>
-				))}
-			<h1>Pending</h1>
-			<ul>
-				{guests
-					.filter(guest => guest.status === "Undecided")
-					.map(pendingGuest => (
-						<li>
-							{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
-						</li>
-					))}
-			</ul>
-			<h1>Busy</h1>
-			{guests
-				.filter(guest => guest.status === "Unable")
-				.map(declinedGuest => (
-					<li>
-						{declinedGuest.contact.firstName} {declinedGuest.contact.lastName}
-					</li>
-				))}
+			<h2>GuestManager</h2>
+			{guests.length === 0 ? (
+				<h2>You haven't invited anyone, silly!</h2>
+			) : (
+				<div>
+					<h3>Confirmed</h3>
+					<ul>
+						{guests
+							.filter(guest => guest.status === "Going")
+							.map(acceptedGuest => (
+								<li>
+									{acceptedGuest.contact.firstName}{" "}
+									{acceptedGuest.contact.lastName}
+								</li>
+							))}
+					</ul>
+
+					<h3>Pending</h3>
+					<ul>
+						{guests
+							.filter(guest => guest.status === "Undecided")
+							.map(pendingGuest => (
+								<li>
+									{pendingGuest.contact.firstName} {pendingGuest.contact.lastName}
+								</li>
+							))}
+					</ul>
+					<h3>Busy</h3>
+					<ul>
+						{guests
+							.filter(guest => guest.status === "Unable")
+							.map(declinedGuest => (
+								<li>
+									{declinedGuest.contact.firstName}{" "}
+									{declinedGuest.contact.lastName}
+								</li>
+							))}
+					</ul>
+				</div>
+			)}
 			{inviteGuest ? (
 				<TextBoy
 					cancelInvite={() => setInviteGuest(false)}
@@ -145,5 +167,10 @@ export default function GuestManager(props) {
 const styles = {
 	banner: {
 		display: "block",
+	},
+	icon: {
+		cursor: "pointer",
+		marginLeft: "8px",
+		marginTop: "5px",
 	},
 };
